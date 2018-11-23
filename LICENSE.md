@@ -190,7 +190,7 @@ that the Package constitutes direct or contributory patent
 infringement, then this Artistic License to you shall terminate on the
 date that such litigation is filed.
 
-(14)  Disclaimer of Warranty:
+(14)  Disclaimer of Warranty :
 THE PACKAGE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS
 IS' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES. THE IMPLIED
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR
