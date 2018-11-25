@@ -1,4 +1,4 @@
-## Title: |cffd708HowToBeam|r
+﻿## Title: |cffd708HowToBeam|r
 ## APIVersion: 100025
 ## Author: Floliroy
 ## Version: 1.0
@@ -28,6 +28,9 @@ Lib/LibAddonMenu-2.0/controls/slider.lua
 Lib/LibAddonMenu-2.0/controls/texture.lua
 Lib/LibAddonMenu-2.0/controls/iconpicker.lua
 Lib/LibAddonMenu-2.0/controls/divider.lua
+
+Lang/en.lua
+Lang/$(language).lua
 
 HowToBeam.xml
 HowToBeam.lua

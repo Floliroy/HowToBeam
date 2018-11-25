@@ -21,7 +21,8 @@ HowToBeam.Default = {
 	SpammableAlert = "Start Use Beam",
 	DoTAlert = "Only Spear + Blockade",
 	FinishAlert = "Beam Them to Death",
-	AlwaysShowAlert = false
+	AlwaysShowAlert = false,
+	ColorRGB = {1, 0.12, 0.02, 1}
 }
 
 function HowToBeam.CreateSettingsWindow()
@@ -41,16 +42,16 @@ function HowToBeam.CreateSettingsWindow()
 	local optionsData = {
 		[1] = {
 			type = "header",
-			name = "Spammable",
+			name = GetString(SI_HOWTOBEAM_SPAMMABLE_HEADER),
 		},
 		[2] = {
 			type = "description",
-			text = "Configure which spammable you are using to compare it to radiant.\nMake sure to only select ONE on all.",
+			text = GetString(SI_HOWTOBEAM_SPAMMABLE_DESC),
 		},
 		[3] = {
 			type = "checkbox",
-			name = "Elemental Weapon",
-			tooltip = "Are you using, Elemental Weapon from Psijic Order as spammable ?",
+			name = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_PSIJIC_TT),
 			default = true,
 			getFunc = function() return HowToBeam.savedVariables.Psijic end,
 			setFunc = function(newValue) 
@@ -60,8 +61,8 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[4] = {
 			type = "checkbox",
-			name = "Force Pulse",
-			tooltip = "Are you using, Force Pulse from Destruction Staff as spammable ?",
+			name = GetString(SI_HOWTOBEAM_PULSE_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_PULSE_TT),
 			default = false,
 			getFunc = function() return HowToBeam.savedVariables.Pulse end,
 			setFunc = function(newValue) 
@@ -71,8 +72,8 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[5] = {
 			type = "checkbox",
-			name = "Puncturing Sweep",
-			tooltip = "Are you using, Puncturing Sweep from Aedric Spear as spammable ?",
+			name = GetString(SI_HOWTOBEAM_JABS_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_JABS_TT),
 			default = false,
 			getFunc = function() return HowToBeam.savedVariables.Jabs end,
 			setFunc = function(newValue) 
@@ -82,8 +83,8 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[6] = {
 			type = "checkbox",
-			name = "Dark Flare",
-			tooltip = "Are you using, Dark Flare from Dawn's Wrath as spammable ?",
+			name = GetString(SI_HOWTOBEAM_FLARE_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_FLARE_TT),
 			default = false,
 			getFunc = function() return HowToBeam.savedVariables.Flare end,
 			setFunc = function(newValue) 
@@ -93,16 +94,16 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[7] = {
 			type = "header",
-			name = "Settings",
+			name = GetString(SI_HOWTOBEAM_SETTINGS_HEADER),
 		},
 		[8] = {
 			type = "description",
-			text = "Other settings to personalize your HowToBeam Add-On.\nComming Soon : Settings to get more accurate results.",
+			text = GetString(SI_HOWTOBEAM_SETTINGS_DESC),
 		},
 		[9] = {
 			type = "slider",
-			name = "HP Threshold",
-			tooltip = "The minimum target's max Health in Million for the alert to be enabled.",
+			name = GetString(SI_HOWTOBEAM_HP_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_HP_TT),
 			min = 1,
 			max = 20,
 			step = 1,
@@ -115,8 +116,8 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[10] = {
 			type = "editbox",
-			name = "Spammable Alert",
-			tooltip = "What alert you want, when you can start use Radiant instead of your Spammable.\nRemember to keep all your DoTs up.",
+			name = GetString(SI_HOWTOBEAM_SPAMMABLEALERT_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_SPAMMABLEALERT_TT),
 			default = "Start Use Beam",
 			getFunc = function() return HowToBeam.savedVariables.SpammableAlert end,
 			setFunc = function(newValue) 
@@ -126,8 +127,8 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[11] = {
 			type = "editbox",
-			name = "Spear+Blockade Alert",
-			tooltip = "What alert you want, when the only DoTs you need to Resfresh are Spear and Blockade.",
+			name = GetString(SI_HOWTOBEAM_DOTALERT_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_DOTALERT_TT),
 			default = "Only Spear + Blockade",
 			getFunc = function() return HowToBeam.savedVariables.DoTAlert end,
 			setFunc = function(newValue) 
@@ -137,8 +138,8 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[12] = {
 			type = "editbox",
-			name = "Radiant Spam Alert",
-			tooltip = "What alert you want, when you can spam Radiant.",
+			name = GetString(SI_HOWTOBEAM_FINISHALERT_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_FINISHALERT_TT),
 			default = "Beam Them to Death",
 			getFunc = function() return HowToBeam.savedVariables.FinishAlert end,
 			setFunc = function(newValue) 
@@ -148,14 +149,24 @@ function HowToBeam.CreateSettingsWindow()
 		},
 		[13] = {
 			type = "checkbox",
-			name = "Unlock",
-			tooltip = "Use it to reposition the alert.",
+			name = GetString(SI_HOWTOBEAM_UNLOCK_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_UNLOCK_TT),
 			default = false,
 			getFunc = function() return HowToBeam.savedVariables.AlwaysShowAlert end,
 			setFunc = function(newValue) 
 				HowToBeam.savedVariables.AlwaysShowAlert = newValue
 				HowToBeamAlert:SetHidden(not newValue)  end,
-		},	
+		},
+		[14] = {
+			type = "colorpicker",
+			name = GetString(SI_HOWTOBEAM_COLOR_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_COLOR_TT),
+			getFunc = function() return unpack(HowToBeam.savedVariables.ColorRGB) end,
+			setFunc = function(r,g,b,a)
+				HowToBeam.savedVariables.ColorRGB = {r,g,b,a}
+				HowToBeamBoss:SetColor(unpack(HowToBeam.savedVariables.ColorRGB))
+			end,
+		},
 	}
 	
 	LAM2:RegisterOptionControls("HowToBeam_Settings", optionsData)
@@ -439,6 +450,7 @@ function HowToBeam:Initialize()
 	HowToBeamAlert:ClearAnchors()
 	HowToBeamAlert:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, HowToBeam.savedVariables.OffsetX, HowToBeam.savedVariables.OffsetY)
 	
+	HowToBeamBoss:SetColor(unpack(HowToBeam.savedVariables.ColorRGB))
 	HowToBeam.AlwaysShowAlert = HowToBeam.savedVariables.AlwaysShowAlert
 	
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
@@ -451,7 +463,7 @@ function HowToBeam:Initialize()
 	HowToBeam.SpammableAlert = HowToBeam.savedVariables.SpammableAlert
 	HowToBeam.DoTAlert = HowToBeam.savedVariables.DoTAlert
 	HowToBeam.FinishAlert = HowToBeam.savedVariables.FinishAlert
-	
+
 	start = 1
 end
 

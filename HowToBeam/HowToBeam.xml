@@ -17,7 +17,7 @@
        	  </OnMoveStop>
 		 
 			<Controls>
-				<Label name="HowToBeamBoss" font="$(BOLD_FONT)|$(KB_40)|soft-shadow-thick" color="FF0000" wrapMode="ELLIPSIS" text="HowToBeamBoss">
+				<Label name="HowToBeamBoss" font="$(BOLD_FONT)|$(KB_40)|soft-shadow-thick" color="EF220B" wrapMode="ELLIPSIS" text="HowToBeamBoss">
 						<Anchor relativeTo="$(parent)"  point="CENTER"/>
 				</Label>
 			</Controls>
