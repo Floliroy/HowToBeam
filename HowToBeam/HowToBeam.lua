@@ -11,18 +11,22 @@ HowToBeam.version = "1.0"
 
 --Saved Variables
 HowToBeam.Default = {
-	OffsetX = 800,
-	OffsetY = 300,
-	Psijic = true,
-	Pulse = false,
-	Jabs = false,
-	Flare = false,
+	OffsetX = 873,
+	OffsetY = 303,
+	Spammable = 1,
 	maxTargetHPchoose = 3,
+	AlwaysShowAlert = false,
 	SpammableAlert = "Start Use Beam",
 	DoTAlert = "Only Spear + Blockade",
 	FinishAlert = "Beam Them to Death",
-	AlwaysShowAlert = false,
 	ColorRGB = {1, 0.12, 0.02, 1}
+}
+
+local SpammableChoice = {
+	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
+	[2] = GetString(SI_HOWTOBEAM_PULSE_NAME),
+	[3] = GetString(SI_HOWTOBEAM_JABS_NAME),
+	[4] = GetString(SI_HOWTOBEAM_FLARE_NAME),
 }
 
 function HowToBeam.CreateSettingsWindow()
@@ -42,65 +46,30 @@ function HowToBeam.CreateSettingsWindow()
 	local optionsData = {
 		[1] = {
 			type = "header",
-			name = GetString(SI_HOWTOBEAM_SPAMMABLE_HEADER),
+			name = GetString(SI_HOWTOBEAM_SETTINGS_HEADER),
 		},
 		[2] = {
 			type = "description",
-			text = GetString(SI_HOWTOBEAM_SPAMMABLE_DESC),
-		},
-		[3] = {
-			type = "checkbox",
-			name = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
-			tooltip = GetString(SI_HOWTOBEAM_PSIJIC_TT),
-			default = true,
-			getFunc = function() return HowToBeam.savedVariables.Psijic end,
-			setFunc = function(newValue) 
-				HowToBeam.savedVariables.Psijic = newValue
-				HowToBeam.Psijic = newValue
-				end,
-		},
-		[4] = {
-			type = "checkbox",
-			name = GetString(SI_HOWTOBEAM_PULSE_NAME),
-			tooltip = GetString(SI_HOWTOBEAM_PULSE_TT),
-			default = false,
-			getFunc = function() return HowToBeam.savedVariables.Pulse end,
-			setFunc = function(newValue) 
-				HowToBeam.savedVariables.Pulse = newValue
-				HowToBeam.Pulse = newValue
-				end,
-		},
-		[5] = {
-			type = "checkbox",
-			name = GetString(SI_HOWTOBEAM_JABS_NAME),
-			tooltip = GetString(SI_HOWTOBEAM_JABS_TT),
-			default = false,
-			getFunc = function() return HowToBeam.savedVariables.Jabs end,
-			setFunc = function(newValue) 
-				HowToBeam.savedVariables.Jabs = newValue
-				HowToBeam.Jabs = newValue
-				end,
-		},
-		[6] = {
-			type = "checkbox",
-			name = GetString(SI_HOWTOBEAM_FLARE_NAME),
-			tooltip = GetString(SI_HOWTOBEAM_FLARE_TT),
-			default = false,
-			getFunc = function() return HowToBeam.savedVariables.Flare end,
-			setFunc = function(newValue) 
-				HowToBeam.savedVariables.Flare = newValue
-				HowToBeam.Flare = newValue
-				end,
-		},
-		[7] = {
-			type = "header",
-			name = GetString(SI_HOWTOBEAM_SETTINGS_HEADER),
-		},
-		[8] = {
-			type = "description",
 			text = GetString(SI_HOWTOBEAM_SETTINGS_DESC),
 		},
-		[9] = {
+		[3] = {
+			type = "dropdown",
+			name = GetString(SI_HOWTOBEAM_SPAMMABLE_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_SPAMMABLE_TT),
+			choices = SpammableChoice,
+			default = SpammableChoice[1],
+			getFunc = function() return SpammableChoice[HowToBeam.savedVariables.Spammable] end,
+			setFunc = function(selected)
+				for index, name in ipairs(SpammableChoice) do
+					if name == selected then
+						HowToBeam.savedVariables.Spammable = index
+						HowToBeam.Spammable = index
+						break
+					end
+				end
+			end,
+		},
+		[4] = {
 			type = "slider",
 			name = GetString(SI_HOWTOBEAM_HP_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_HP_TT),
@@ -114,7 +83,26 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.maxTargetHPchoose = newValue
 				end,
 		},
-		[10] = {
+		[5] = {
+			type = "header",
+			name = GetString(SI_HOWTOBEAM_CUSTOMIZATION_HEADER),
+		},
+		[6] = {
+			type = "description",
+			text = GetString(SI_HOWTOBEAM_CUSTOMIZATION_DESC),
+		},
+		[7] = {
+			type = "checkbox",
+			name = GetString(SI_HOWTOBEAM_UNLOCK_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_UNLOCK_TT),
+			default = false,
+			getFunc = function() return HowToBeam.savedVariables.AlwaysShowAlert end,
+			setFunc = function(newValue) 
+				HowToBeam.savedVariables.AlwaysShowAlert = newValue
+				HowToBeamAlert:SetHidden(not newValue)  
+			end,
+		},
+		[8] = {
 			type = "editbox",
 			name = GetString(SI_HOWTOBEAM_SPAMMABLEALERT_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_SPAMMABLEALERT_TT),
@@ -125,7 +113,7 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.SpammableAlert = newValue
 				end,
 		},
-		[11] = {
+		[9] = {
 			type = "editbox",
 			name = GetString(SI_HOWTOBEAM_DOTALERT_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_DOTALERT_TT),
@@ -136,7 +124,7 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.DoTAlert = newValue
 				end,
 		},
-		[12] = {
+		[10] = {
 			type = "editbox",
 			name = GetString(SI_HOWTOBEAM_FINISHALERT_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_FINISHALERT_TT),
@@ -147,17 +135,7 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.FinishAlert = newValue
 				end,
 		},
-		[13] = {
-			type = "checkbox",
-			name = GetString(SI_HOWTOBEAM_UNLOCK_NAME),
-			tooltip = GetString(SI_HOWTOBEAM_UNLOCK_TT),
-			default = false,
-			getFunc = function() return HowToBeam.savedVariables.AlwaysShowAlert end,
-			setFunc = function(newValue) 
-				HowToBeam.savedVariables.AlwaysShowAlert = newValue
-				HowToBeamAlert:SetHidden(not newValue)  end,
-		},
-		[14] = {
+		[11] = {
 			type = "colorpicker",
 			name = GetString(SI_HOWTOBEAM_COLOR_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_COLOR_TT),
@@ -409,18 +387,18 @@ function HowToBeamCalcul()
 		if(maxTargetHP > (HowToBeam.maxTargetHPchoose * 1000000)) then
 			if (BossPercentage > SpearPercentage) then
 				if (BossPercentage > VampBanePercentage) then
-					if ((HowToBeam.Psijic == true) and (BossPercentage < PsijicPercentage)) then 
-							HowToBeamAlert:SetHidden(false)
-							executeAlert = HowToBeam.SpammableAlert
-					elseif ((HowToBeam.Pulse == true) and (BossPercentage < PulsePercentage)) then 
-							HowToBeamAlert:SetHidden(false)
-							executeAlert = HowToBeam.SpammableAlert
-					elseif ((HowToBeam.Jabs == true) and (BossPercentage < JabsPercentage)) then 
-							HowToBeamAlert:SetHidden(false)
-							executeAlert = HowToBeam.SpammableAlert
-					elseif ((HowToBeam.Flare == true) and (BossPercentage < PulsePercentage)) then 
-							HowToBeamAlert:SetHidden(false)
-							executeAlert = HowToBeam.SpammableAlert
+					if ((HowToBeam.Spammable == 1) and (BossPercentage < PsijicPercentage)) then --Psijic Spammable
+						HowToBeamAlert:SetHidden(false)
+						executeAlert = HowToBeam.SpammableAlert
+					elseif ((HowToBeam.Spammable == 2) and (BossPercentage < PulsePercentage)) then --Pulse Spammable
+						HowToBeamAlert:SetHidden(false)
+						executeAlert = HowToBeam.SpammableAlert
+					elseif ((HowToBeam.Spammable == 3) and (BossPercentage < JabsPercentage)) then --Jabs Spammable
+						HowToBeamAlert:SetHidden(false)
+						executeAlert = HowToBeam.SpammableAlert
+					elseif ((HowToBeam.Spammable == 4) and (BossPercentage < FlarePercentage)) then --Flare Spammable
+						HowToBeamAlert:SetHidden(false)
+						executeAlert = HowToBeam.SpammableAlert
 					else 
 						HowToBeamAlert:SetHidden(true)
 						executeAlert = ""
@@ -455,10 +433,7 @@ function HowToBeam:Initialize()
 	
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
 	
-	HowToBeam.Psijic = HowToBeam.savedVariables.Psijic
-	HowToBeam.Pulse = HowToBeam.savedVariables.Pulse
-	HowToBeam.Jabs = HowToBeam.savedVariables.Jabs
-	HowToBeam.Flare = HowToBeam.savedVariables.Flare
+	HowToBeam.Spammable = HowToBeam.savedVariables.Spammable
 	HowToBeam.maxTargetHPchoose = HowToBeam.savedVariables.maxTargetHPchoose
 	HowToBeam.SpammableAlert = HowToBeam.savedVariables.SpammableAlert
 	HowToBeam.DoTAlert = HowToBeam.savedVariables.DoTAlert
