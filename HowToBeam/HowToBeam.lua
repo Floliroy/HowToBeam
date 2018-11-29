@@ -2,14 +2,23 @@ local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 -----------------
 ---- Globals ----
 -----------------
-
-local start = 0
-
 HowToBeam = {}
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "1.0"
+HowToBeam.version = "1.2"
 
---Saved Variables
+local SpammableChoice = {
+	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
+	[2] = GetString(SI_HOWTOBEAM_PULSE_NAME),
+	[3] = GetString(SI_HOWTOBEAM_JABS_NAME),
+	[4] = GetString(SI_HOWTOBEAM_FLARE_NAME),
+}
+
+local fire_race = 0
+local shock_bonus = 0
+
+---------------------------
+---- Variables Default ----
+---------------------------
 HowToBeam.Default = {
 	OffsetX = 873,
 	OffsetY = 303,
@@ -22,13 +31,9 @@ HowToBeam.Default = {
 	ColorRGB = {1, 0.12, 0.02, 1}
 }
 
-local SpammableChoice = {
-	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
-	[2] = GetString(SI_HOWTOBEAM_PULSE_NAME),
-	[3] = GetString(SI_HOWTOBEAM_JABS_NAME),
-	[4] = GetString(SI_HOWTOBEAM_FLARE_NAME),
-}
-
+-------------------------
+---- Settings Window ----
+-------------------------
 function HowToBeam.CreateSettingsWindow()
 	local panelData = {
 		type = "panel",
@@ -150,6 +155,9 @@ function HowToBeam.CreateSettingsWindow()
 	LAM2:RegisterOptionControls("HowToBeam_Settings", optionsData)
 end
 
+-------------------------------
+---- Champoin Points Table ----
+-------------------------------
 local CpVariables15 = {
 [0]=0.00,[1]=0.00,[2]=0.00,[3]=0.00,
 [4]=0.01,[5]=0.01,[6]=0.01,
@@ -239,8 +247,7 @@ local CpVariables35 = {
 [100]=0.35
 }
 
-function HowToBeamCalcul()
-	if (start == 1) then
+function HowToBeam.Calcul()
 	-------------
 	---- CPs ----
 	-------------
@@ -257,16 +264,16 @@ function HowToBeamCalcul()
 	--------------
 	---- Race ----
 	--------------
-		local race = GetUnitRaceId("player")
-		local fire_race = 0
-		local shock_bonus = 0
-		if race == 7 then
-			fire_race = 0.04
-			shock_bonus = 0.04
-		elseif race == 4 then
-			fire_race = 0.07
-			shock_bonus = 0.02
-		end	
+		-- local race = GetUnitRaceId("player")
+		-- local fire_race = 0
+		-- local shock_bonus = 0
+		-- if race == 7 then
+		-- 	fire_race = 0.04
+		-- 	shock_bonus = 0.04
+		-- elseif race == 4 then
+		-- 	fire_race = 0.07
+		-- 	shock_bonus = 0.02
+		-- end	
 		
 	-------------------------	
 	---- Damage Modifier ----
@@ -386,7 +393,7 @@ function HowToBeamCalcul()
 		
 		if(maxTargetHP > (HowToBeam.maxTargetHPchoose * 1000000)) then
 			if (BossPercentage > SpearPercentage) then
-				if (BossPercentage > VampBanePercentage) then
+				if ((BossPercentage > VampBanePercentage) and (BossPercentage > 0.25)) then
 					if ((HowToBeam.Spammable == 1) and (BossPercentage < PsijicPercentage)) then --Psijic Spammable
 						HowToBeamAlert:SetHidden(false)
 						executeAlert = HowToBeam.SpammableAlert
@@ -416,30 +423,44 @@ function HowToBeamCalcul()
 			executeAlert = "Execute Alert Here"
 		end
 		HowToBeamBoss:SetText(string.format("%s", executeAlert))
-	end
 end
  
 function HowToBeam:Initialize()
+	--Settings
 	HowToBeam.CreateSettingsWindow()
 	
+	--Saved Variables
 	HowToBeam.savedVariables = ZO_SavedVars:New("HowToBeamVariables", 1, nil, HowToBeam.Default)
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
 	
+	--UI
+	HowToBeamAlert:SetHidden(true)
 	HowToBeamAlert:ClearAnchors()
 	HowToBeamAlert:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, HowToBeam.savedVariables.OffsetX, HowToBeam.savedVariables.OffsetY)
 	
 	HowToBeamBoss:SetColor(unpack(HowToBeam.savedVariables.ColorRGB))
 	HowToBeam.AlwaysShowAlert = HowToBeam.savedVariables.AlwaysShowAlert
-	
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
 	
+	--Calculation
+	local race = GetUnitRaceId("player")
+	if race == 7 then
+		fire_race = 0.04
+		shock_bonus = 0.04
+	elseif race == 4 then
+		fire_race = 0.07
+		shock_bonus = 0.02
+	end	
 	HowToBeam.Spammable = HowToBeam.savedVariables.Spammable
 	HowToBeam.maxTargetHPchoose = HowToBeam.savedVariables.maxTargetHPchoose
 	HowToBeam.SpammableAlert = HowToBeam.savedVariables.SpammableAlert
 	HowToBeam.DoTAlert = HowToBeam.savedVariables.DoTAlert
 	HowToBeam.FinishAlert = HowToBeam.savedVariables.FinishAlert
 
-	start = 1
+	EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_POWER_UPDATE, HowToBeam.Calcul)
+	EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_RETICLE_TARGET_CHANGED, HowToBeam.Calcul)
+	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
+	
 end
 
 function HowToBeam.SaveLoc()

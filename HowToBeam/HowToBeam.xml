@@ -1,13 +1,5 @@
 <GuiXml>
-    <Controls>
-		<TopLevelControl name="HowToBeamMain" mouseEnabled="true"  movable="true">
-			<Dimensions x="0" y="0" />
-			<Anchor offsetX="0" offsetY="0" />
-			<OnUpdate>
-                HowToBeamCalcul()
-            </OnUpdate>
-		</TopLevelControl>
-		
+    <Controls>	
 		<TopLevelControl name="HowToBeamAlert" mouseEnabled="true"  movable="true">
 			<Dimensions x="200" y="30" />
 			<Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" offsetX="800" offsetY="300"/>
@@ -17,11 +9,10 @@
        	  </OnMoveStop>
 		 
 			<Controls>
-				<Label name="HowToBeamBoss" font="$(BOLD_FONT)|$(KB_40)|soft-shadow-thick" color="EF220B" wrapMode="ELLIPSIS" text="HowToBeamBoss">
+				<Label name="HowToBeamBoss" font="$(BOLD_FONT)|$(KB_40)|soft-shadow-thick" color="FF1E03" wrapMode="ELLIPSIS" text="HowToBeamBoss">
 						<Anchor relativeTo="$(parent)"  point="CENTER"/>
 				</Label>
 			</Controls>
 		</TopLevelControl>
     </Controls>
 </GuiXml>
-
