@@ -4,7 +4,7 @@ local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 -----------------
 HowToBeam = {}
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "1.2"
+HowToBeam.version = "1.2.1"
 
 local SpammableChoice = {
 	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
@@ -456,8 +456,9 @@ function HowToBeam:Initialize()
 	HowToBeam.SpammableAlert = HowToBeam.savedVariables.SpammableAlert
 	HowToBeam.DoTAlert = HowToBeam.savedVariables.DoTAlert
 	HowToBeam.FinishAlert = HowToBeam.savedVariables.FinishAlert
-
-	EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_POWER_UPDATE, HowToBeam.Calcul)
+	
+	--EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_POWER_UPDATE, HowToBeam.Calcul)
+	EVENT_MANAGER:RegisterForUpdate(HowToBeam.name, 333, HowToBeam.Calcul)
 	EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_RETICLE_TARGET_CHANGED, HowToBeam.Calcul)
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
 	
