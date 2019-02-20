@@ -261,20 +261,6 @@ function HowToBeam.Calcul()
 		local MaA = CpVariables25[MasterArms]
 		local SE = CpVariables35[StaffExpert]
 		
-	--------------
-	---- Race ----
-	--------------
-		-- local race = GetUnitRaceId("player")
-		-- local fire_race = 0
-		-- local shock_bonus = 0
-		-- if race == 7 then
-		-- 	fire_race = 0.04
-		-- 	shock_bonus = 0.04
-		-- elseif race == 4 then
-		-- 	fire_race = 0.07
-		-- 	shock_bonus = 0.02
-		-- end	
-		
 	-------------------------	
 	---- Damage Modifier ----
 	-------------------------
@@ -320,7 +306,7 @@ function HowToBeam.Calcul()
 		local currentmagicka, maxmagicka, effmaxmagicka = GetUnitPower("player", POWERTYPE_MAGICKA)
 		
 		local ActualMagicka = currentmagicka/maxmagicka
-		local effective_bonus = (maxmagicka/10.5+spelldamage) * (1-18200/50000)
+		--local effective_bonus = (maxmagicka/10.5+spelldamage) 
 		
 	----------------------------	
 	---- Skills Calculation ----
@@ -337,52 +323,56 @@ function HowToBeam.Calcul()
 		local FlareBonus = damage_bonus + 0.08 + EE + MaA
 		local PsijicBonus1 = damage_bonus + 0.08 + EE + MaA --Inital Hit
 		local PsijicBonus2 = damage_bonus + 0.08 + EE + MaA --Orb
-		local PsijicBonus3 = damage_bonus + fire_bonus + 0.08 + EE + Thaum --Burning 
 		local PulseBonus1 = damage_bonus + fire_bonus + 0.08 + EE + MaA --Fire
 		local PulseBonus2 = damage_bonus + shock_bonus + 0.08 + EE + MaA --Shock + Frost
 		local RadiantBonus = damage_bonus + 0.08 + EE + MaA
+		local FireGlyphBonus = damage_bonus + fire_bonus + 0.08 + EE + MaA
 		--Special Factor Value
-		local MAValue = 1341 * (1-18200/50000)
-		local FlareEmpower = effective_bonus * LightAttackBonus * 0.4
+		local BurningBonus = damage_bonus + fire_bonus + 0.08 + EE + Thaum
+		local FlareEmpower = (0.0449355 * maxmagicka + 0.472123 * spelldamage + 0.208275) * 0.4
 		
 		--Every skills damage 
-		--Skills factor are found on uesp
-		local LightAttackDamage = effective_bonus * 0.472269 * 1 * (1 + LightAttackBonus)
-		local LightAttackMADamage = MAValue * (1 + LightAttackMABonus)
-		local BurningLightDamage = effective_bonus * 0.62977 * 1 * (1 + BurningLightBonus)
-		local SpearDamage1 = effective_bonus * 0.61572 * 1 * (1 + SpearBonus1)
-		local SpearDamage2 = effective_bonus * 0.25849 * 8 * (1 + SpearBonus2)
-		local VampBaneDamage1 = effective_bonus * 0.65031 * 1 * (1 + VampBaneBonus1)
-		local VampBaneDamage2 = effective_bonus * 1.34217 * 1.2 * (1 + VampBaneBonus2)
-		local JabsDamage = effective_bonus * 0.407594 * 4 * (1 + JabsBonus)
-		local FlareDamage = effective_bonus * 1.93259 * 1 * (1 + FlareBonus)
-		local PsijicDamage1 = effective_bonus * 1.00774 * 1 * (1 + PsijicBonus1)
-		local PsijicDamage2 = effective_bonus * 0.52444 * 0.2 * (1 + PsijicBonus2)
-		local PsijicDamage3 = effective_bonus * 0.167947210695167 * (4/3) * (1 + PsijicBonus3)
-		local PulseDamage1 = effective_bonus * 0.3203 * 1 * (1 + PulseBonus1)
-		local PulseDamage2 = effective_bonus * 0.3203 * 2 * (1 + PulseBonus2)
-		local RadiantDamage = effective_bonus * 1.22358 * 1 * (1 + RadiantBonus) * (1 + 0.2 * ActualMagicka)
-		local BurningLightSpear = (2 + (1 - 0.75^2)) * BurningLightDamage
-		local BurningLightJabs = 0.7619 * BurningLightDamage
+		--Skills factor are found on uesp : http://esoitem.uesp.net/viewSkills.php
+		local LightAttackDamage = (0.0449355 * maxmagicka + 0.472123 * spelldamage + 0.208275) * 1 * (1 + LightAttackBonus)
+		local LightAttackMADamage = 1341 * (1 + LightAttackMABonus)
+		local FireGlyphDamage1 = 3294 * 0.5 * (1 + FireGlyphBonus)
+		local FireGlyphDamage2 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * 0.5 * 0.4 * 3 * (1 + BurningBonus) --proc chance * number of ticks
+		local BurningLightDamage = (0.06008 * maxmagicka + 0.62977 * spelldamage - 1.14813) * 1 * (1 + BurningLightBonus)
+		local SpearDamage1 = (0.05875 * maxmagicka + 0.61572 * spelldamage + 1.83991) * 1 * (1 + SpearBonus1)
+		local SpearDamage2 = (0.02473 * maxmagicka + 0.25849 * spelldamage - 0.69002) * 8 * (1 + SpearBonus2)
+		local VampBaneDamage1 = (0.06193 * maxmagicka + 0.65031 * spelldamage + 0.19734) * 1 * (1 + VampBaneBonus1)
+		local VampBaneDamage2 = (0.12787 * maxmagicka + 1.34217 * spelldamage - 2.44535) * 1.2 * (1 + VampBaneBonus2)
+		local VampBaneDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * (6 * 0.06 + 0.2) * 3 * (1 + BurningBonus)
+		local JabsDamage = (0.03880 * maxmagicka + 0.40759 * spelldamage - 0.65306) * 4 * (1 + JabsBonus)
+		local FlareDamage = (0.18401 * maxmagicka + 1.93241 * spelldamage + 2.74474) * 1 * (1 + FlareBonus)
+		local PsijicDamage1 = (0.09614 * maxmagicka + 1.00792 * spelldamage - 1.96746) * 1 * (1 + PsijicBonus1)
+		local PsijicDamage2 = (0.05003 * maxmagicka + 0.52442 * spelldamage - 1.0426) * 0.2 * (1 + PsijicBonus2)
+		local PsijicDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * (1/3) * 3 * (1 + BurningBonus) 
+		local PulseDamage1 = (0.03101 * maxmagicka + 0.32024 * spelldamage + 1.41950) * 1 * (1 + PulseBonus1)
+		local PulseDamage2 = (0.03101 * maxmagicka + 0.32024 * spelldamage + 1.41950) * 2 * (1 + PulseBonus2)
+		local PulseDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * 0.2 * 3 * (1 + BurningBonus)
+		local RadiantDamage = (0.11639 * maxmagicka + 1.22358 * spelldamage - 2.11835) * 1 * (1 + RadiantBonus) * (1 + 0.2 * ActualMagicka)
+		local BurningLightSpear = 9 * 0.25 * BurningLightDamage
+		local BurningLightJabs = 0.8 * BurningLightDamage
 
 	---------------------------	
 	---- Skills Comparison ----
 	---------------------------
-		local LightAttackTotal = LightAttackDamage + LightAttackMADamage
+		local LightAttackTotal = LightAttackDamage + LightAttackMADamage + FireGlyphDamage1 + FireGlyphDamage2
 		local SpearTotal = (LightAttackTotal + SpearDamage1 + SpearDamage2 + BurningLightSpear) / 1
-		local VampBaneTotal = (LightAttackTotal + VampBaneDamage1+ VampBaneDamage2) / 1
+		local VampBaneTotal = (LightAttackTotal + VampBaneDamage1 + VampBaneDamage2 + VampBaneDamage3) / 1
 		local JabsTotal = (LightAttackTotal + JabsDamage + BurningLightJabs) / 1.3
 		local FlareTotal = (LightAttackTotal + FlareDamage + FlareEmpower) / 1.3
 		local PsijicTotal = (LightAttackTotal + PsijicDamage1 + PsijicDamage2 + PsijicDamage3) / 1
-		local PulseTotal = (LightAttackTotal + PulseDamage1 + PulseDamage2) / 1
-		
+		local PulseTotal = (LightAttackTotal + PulseDamage1 + PulseDamage2 + PulseDamage3) / 1
+
 		local SpearPercentage = (1 - ((SpearTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local VampBanePercentage = (1 - ((VampBaneTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local JabsPercentage = (1 - ((JabsTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local FlarePercentage = (1 - ((FlareTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local PsijicPercentage = (1 - ((PsijicTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local PulsePercentage = (1 - ((PulseTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
-
+		
 	-------------------------
 	---- Boss Percentage ----
 	-------------------------
