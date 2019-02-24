@@ -4,13 +4,20 @@ local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 -----------------
 HowToBeam = {}
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "1.2.1"
+HowToBeam.version = "1.3.0"
 
 local SpammableChoice = {
 	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
 	[2] = GetString(SI_HOWTOBEAM_PULSE_NAME),
 	[3] = GetString(SI_HOWTOBEAM_JABS_NAME),
 	[4] = GetString(SI_HOWTOBEAM_FLARE_NAME),
+}
+
+local GlyphChoice = {
+	[1] = GetString(SI_HOWTOBEAM_FLAME_NAME),
+	[2] = GetString(SI_HOWTOBEAM_SHOCK_NAME),
+	[3] = GetString(SI_HOWTOBEAM_ABSORB_NAME),
+	[4] = GetString(SI_HOWTOBEAM_OTHER_NAME),
 }
 
 local fire_race = 0
@@ -22,13 +29,17 @@ local shock_bonus = 0
 HowToBeam.Default = {
 	OffsetX = 873,
 	OffsetY = 303,
+	Enable = true,
 	Spammable = 1,
+	UsingMA = true,
+	Glyph = 1,
 	maxTargetHPchoose = 3,
 	AlwaysShowAlert = false,
 	SpammableAlert = "Start Use Beam",
 	DoTAlert = "Only Spear + Blockade",
 	FinishAlert = "Beam Them to Death",
-	ColorRGB = {1, 0.12, 0.02, 1}
+	ColorRGB = {1, 0.12, 0.02, 1},
+	Debuf = false
 }
 
 -------------------------
@@ -50,14 +61,25 @@ function HowToBeam.CreateSettingsWindow()
 	
 	local optionsData = {
 		[1] = {
+			type = "checkbox",
+			name = GetString(SI_HOWTOBEAM_ENABLE_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_ENABLE_TT),
+			default = true,
+			getFunc = function() return HowToBeam.savedVariables.Enable end,
+			setFunc = function(newValue) 
+				HowToBeam.savedVariables.Enable = newValue
+				HowToBeam.Enable = newValue 
+			end,
+		},
+		[2] = {
 			type = "header",
 			name = GetString(SI_HOWTOBEAM_SETTINGS_HEADER),
 		},
-		[2] = {
+		[3] = {
 			type = "description",
 			text = GetString(SI_HOWTOBEAM_SETTINGS_DESC),
 		},
-		[3] = {
+		[4] = {
 			type = "dropdown",
 			name = GetString(SI_HOWTOBEAM_SPAMMABLE_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_SPAMMABLE_TT),
@@ -74,7 +96,35 @@ function HowToBeam.CreateSettingsWindow()
 				end
 			end,
 		},
-		[4] = {
+		[5] = {
+			type = "checkbox",
+			name = GetString(SI_HOWTOBEAM_MAEL_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_MAEL_TT),
+			default = true,
+			getFunc = function() return HowToBeam.savedVariables.UsingMA end,
+			setFunc = function(newValue) 
+				HowToBeam.savedVariables.UsingMA = newValue
+				HowToBeam.UsingMA = newValue 
+			end,
+		},
+		[6] = {
+			type = "dropdown",
+			name = GetString(SI_HOWTOBEAM_GLYPH_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_GLYPH_TT),
+			choices = GlyphChoice,
+			default = GlyphChoice[1],
+			getFunc = function() return GlyphChoice[HowToBeam.savedVariables.Glyph] end,
+			setFunc = function(selected)
+				for index, name in ipairs(GlyphChoice) do
+					if name == selected then
+						HowToBeam.savedVariables.Glyph = index
+						HowToBeam.Glyph = index
+						break
+					end
+				end
+			end,
+		},
+		[7] = {
 			type = "slider",
 			name = GetString(SI_HOWTOBEAM_HP_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_HP_TT),
@@ -88,15 +138,15 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.maxTargetHPchoose = newValue
 				end,
 		},
-		[5] = {
+		[8] = {
 			type = "header",
 			name = GetString(SI_HOWTOBEAM_CUSTOMIZATION_HEADER),
 		},
-		[6] = {
+		[9] = {
 			type = "description",
 			text = GetString(SI_HOWTOBEAM_CUSTOMIZATION_DESC),
 		},
-		[7] = {
+		[10] = {
 			type = "checkbox",
 			name = GetString(SI_HOWTOBEAM_UNLOCK_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_UNLOCK_TT),
@@ -107,7 +157,7 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeamAlert:SetHidden(not newValue)  
 			end,
 		},
-		[8] = {
+		[11] = {
 			type = "editbox",
 			name = GetString(SI_HOWTOBEAM_SPAMMABLEALERT_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_SPAMMABLEALERT_TT),
@@ -118,7 +168,7 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.SpammableAlert = newValue
 				end,
 		},
-		[9] = {
+		[12] = {
 			type = "editbox",
 			name = GetString(SI_HOWTOBEAM_DOTALERT_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_DOTALERT_TT),
@@ -129,7 +179,7 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.DoTAlert = newValue
 				end,
 		},
-		[10] = {
+		[13] = {
 			type = "editbox",
 			name = GetString(SI_HOWTOBEAM_FINISHALERT_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_FINISHALERT_TT),
@@ -140,7 +190,7 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.FinishAlert = newValue
 				end,
 		},
-		[11] = {
+		[14] = {
 			type = "colorpicker",
 			name = GetString(SI_HOWTOBEAM_COLOR_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_COLOR_TT),
@@ -149,6 +199,24 @@ function HowToBeam.CreateSettingsWindow()
 				HowToBeam.savedVariables.ColorRGB = {r,g,b,a}
 				HowToBeamBoss:SetColor(unpack(HowToBeam.savedVariables.ColorRGB))
 			end,
+		},
+		[15] = {
+			type = "header",
+			name = GetString(SI_HOWTOBEAM_DEBUG_HEADER),
+		},
+		[16] = {
+			type = "description",
+			text = GetString(SI_HOWTOBEAM_DEBUG_DESC),
+		},
+		[17] = {
+			type = "button",
+			name = GetString(SI_HOWTOBEAM_DEBUG_NAME),
+			tooltip = GetString(SI_HOWTOBEAM_DEBUG_TT),
+			func = function()
+				HowToBeam.savedVariables.Debug = true
+				HowToBeam.Debug = true 
+			end,
+			width = "half",
 		},
 	}
 	
@@ -248,6 +316,12 @@ local CpVariables35 = {
 }
 
 function HowToBeam.Calcul()
+
+	local executeAlert = "Execute Alert Here"
+	local currentTargetHP, maxTargetHP, effmaxTargetHP = GetUnitPower("reticleover", POWERTYPE_HEALTH)
+	local BossPercentage = currentTargetHP / maxTargetHP
+
+	if (IsUnitInCombat("player") and (GetUnitClassId("player") == 6) and (BossPercentage < 0.5) and (maxTargetHP > HowToBeam.maxTargetHPchoose * 1000000) and HowToBeam.Enable) or HowToBeam.Debug then
 	-------------
 	---- CPs ----
 	-------------
@@ -327,8 +401,11 @@ function HowToBeam.Calcul()
 		local PulseBonus2 = damage_bonus + shock_bonus + 0.08 + EE + MaA --Shock + Frost
 		local RadiantBonus = damage_bonus + 0.08 + EE + MaA
 		local FireGlyphBonus = damage_bonus + fire_bonus + 0.08 + EE + MaA
+		local ShockGlyphBonus = damage_bonus + shock_bonus + 0.08 + EE + MaA
+		local AbsorbGlyphBonus = damage_bonus + 0.08 + EE + MaA
 		--Special Factor Value
 		local BurningBonus = damage_bonus + fire_bonus + 0.08 + EE + Thaum
+		local ConcussionBonus = damage_bonus + shock_bonus + 0.08 + EE + Thaum
 		local FlareEmpower = (0.0449355 * maxmagicka + 0.472123 * spelldamage + 0.208275) * 0.4
 		
 		--Every skills damage 
@@ -337,20 +414,27 @@ function HowToBeam.Calcul()
 		local LightAttackMADamage = 1341 * (1 + LightAttackMABonus)
 		local FireGlyphDamage1 = 3294 * 0.5 * (1 + FireGlyphBonus)
 		local FireGlyphDamage2 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * 0.5 * 0.4 * 3 * (1 + BurningBonus) --proc chance * number of ticks
+		local ShockGlyphDamage1 = 3294 * 0.5 * (1 + ShockGlyphBonus)
+		local ShockGlyphDamage2 = (maxmagicka/10.5 + spelldamage) * 0.08743955967 * 0.5 * 0.4 * (1 + ConcussionBonus)
+		local AbsorbGlyphDamage = 2470 * 0.5 * (1 + AbsorbGlyphBonus)
+
 		local BurningLightDamage = (0.06008 * maxmagicka + 0.62977 * spelldamage - 1.14813) * 1 * (1 + BurningLightBonus)
 		local SpearDamage1 = (0.05875 * maxmagicka + 0.61572 * spelldamage + 1.83991) * 1 * (1 + SpearBonus1)
 		local SpearDamage2 = (0.02473 * maxmagicka + 0.25849 * spelldamage - 0.69002) * 8 * (1 + SpearBonus2)
 		local VampBaneDamage1 = (0.06193 * maxmagicka + 0.65031 * spelldamage + 0.19734) * 1 * (1 + VampBaneBonus1)
 		local VampBaneDamage2 = (0.12787 * maxmagicka + 1.34217 * spelldamage - 2.44535) * 1.2 * (1 + VampBaneBonus2)
-		local VampBaneDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * (6 * 0.06 + 0.2) * 3 * (1 + BurningBonus)
+		local VampBaneDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * (6 * 0.06 + 0.2) * 1.4 * (1 + BurningBonus)
 		local JabsDamage = (0.03880 * maxmagicka + 0.40759 * spelldamage - 0.65306) * 4 * (1 + JabsBonus)
 		local FlareDamage = (0.18401 * maxmagicka + 1.93241 * spelldamage + 2.74474) * 1 * (1 + FlareBonus)
 		local PsijicDamage1 = (0.09614 * maxmagicka + 1.00792 * spelldamage - 1.96746) * 1 * (1 + PsijicBonus1)
 		local PsijicDamage2 = (0.05003 * maxmagicka + 0.52442 * spelldamage - 1.0426) * 0.2 * (1 + PsijicBonus2)
-		local PsijicDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * (1/3) * 3 * (1 + BurningBonus) 
+		local PsijicDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * (1/3) * 1.8 * (1 + BurningBonus) 
+		local PsijicDamage4 = (maxmagicka/10.5 + spelldamage) * 0.08743955967 * (1/3) * (1 + ConcussionBonus)
 		local PulseDamage1 = (0.03101 * maxmagicka + 0.32024 * spelldamage + 1.41950) * 1 * (1 + PulseBonus1)
 		local PulseDamage2 = (0.03101 * maxmagicka + 0.32024 * spelldamage + 1.41950) * 2 * (1 + PulseBonus2)
-		local PulseDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * 0.2 * 3 * (1 + BurningBonus)
+		local PulseDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * 0.2 * 1.8 * (1 + BurningBonus)
+		local PulseDamage4 = (maxmagicka/10.5 + spelldamage) * 0.08743955967 * 0.2 * (1 + ConcussionBonus)
+
 		local RadiantDamage = (0.11639 * maxmagicka + 1.22358 * spelldamage - 2.11835) * 1 * (1 + RadiantBonus) * (1 + 0.2 * ActualMagicka)
 		local BurningLightSpear = 9 * 0.25 * BurningLightDamage
 		local BurningLightJabs = 0.8 * BurningLightDamage
@@ -358,13 +442,24 @@ function HowToBeam.Calcul()
 	---------------------------	
 	---- Skills Comparison ----
 	---------------------------
-		local LightAttackTotal = LightAttackDamage + LightAttackMADamage + FireGlyphDamage1 + FireGlyphDamage2
+		local LightAttackTotal = LightAttackDamage
+		if (HowToBeam.UsingMA == true) then 
+			LightAttackTotal = LightAttackTotal + LightAttackMADamage
+		end
+		if (HowToBeam.Glyph == 1) then
+			LightAttackTotal = LightAttackTotal + FireGlyphDamage1 + FireGlyphDamage2
+		elseif (HowToBeam.Glyph == 2) then
+			LightAttackTotal = LightAttackTotal + ShockGlyphDamage1 + ShockGlyphDamage2
+		elseif (HowToBeam.Glyph == 3) then
+			LightAttackTotal = LightAttackTotal + AbsorbGlyphDamage
+		end
+		
 		local SpearTotal = (LightAttackTotal + SpearDamage1 + SpearDamage2 + BurningLightSpear) / 1
 		local VampBaneTotal = (LightAttackTotal + VampBaneDamage1 + VampBaneDamage2 + VampBaneDamage3) / 1
 		local JabsTotal = (LightAttackTotal + JabsDamage + BurningLightJabs) / 1.3
 		local FlareTotal = (LightAttackTotal + FlareDamage + FlareEmpower) / 1.3
-		local PsijicTotal = (LightAttackTotal + PsijicDamage1 + PsijicDamage2 + PsijicDamage3) / 1
-		local PulseTotal = (LightAttackTotal + PulseDamage1 + PulseDamage2 + PulseDamage3) / 1
+		local PsijicTotal = (LightAttackTotal + PsijicDamage1 + PsijicDamage2 + PsijicDamage3 + PsijicDamage4) / 1
+		local PulseTotal = (LightAttackTotal + PulseDamage1 + PulseDamage2 + PulseDamage3 + PulseDamage4) / 1
 
 		local SpearPercentage = (1 - ((SpearTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local VampBanePercentage = (1 - ((VampBaneTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
@@ -372,47 +467,57 @@ function HowToBeam.Calcul()
 		local FlarePercentage = (1 - ((FlareTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local PsijicPercentage = (1 - ((PsijicTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
 		local PulsePercentage = (1 - ((PulseTotal * 1.8 - LightAttackTotal) / RadiantDamage - 1) / 4.8) * 0.5
-		
+
+		if HowToBeam.Debug then 
+			HowToBeam.savedVariables.Debug = false
+			HowToBeam.Debug = false
+			
+			local DebugPercentage = "0"
+			if HowToBeam.Spammable == 1 then --Psijic Spammable
+				DebugPercentage = PsijicPercentage
+			elseif HowToBeam.Spammable == 2 then --Pulse Spammable
+				DebugPercentage = PulsePercentage
+			elseif HowToBeam.Spammable == 3 then --Jabs Spammable
+				DebugPercentage = JabsPercentage
+			elseif HowToBeam.Spammable == 4 then --Flare Spammable
+				DebugPercentage = FlarePercentage
+			end
+			d("|cFFFFFFSpammable: |r" .. tostring(string.format("%.3f", DebugPercentage))*100 .. "%\n|cFFFFFFSpear + Wall: |r" .. tostring(string.format("%.3f", VampBanePercentage))*100 .. "%\n|cFFFFFFRadiant Spam: |r" .. tostring(string.format("%.3f", SpearPercentage))*100 .. "%")
+		end
 	-------------------------
 	---- Boss Percentage ----
-	-------------------------
-		local currentTargetHP, maxTargetHP, effmaxTargetHP = GetUnitPower("reticleover", POWERTYPE_HEALTH)
-		local BossPercentage = currentTargetHP / maxTargetHP
-		
-		local executeAlert = "Execute Alert Here"
-		
-		if(maxTargetHP > (HowToBeam.maxTargetHPchoose * 1000000)) then
-			if (BossPercentage > SpearPercentage) then
-				if ((BossPercentage > VampBanePercentage) and (BossPercentage > 0.25)) then
-					if ((HowToBeam.Spammable == 1) and (BossPercentage < PsijicPercentage)) then --Psijic Spammable
-						HowToBeamAlert:SetHidden(false)
-						executeAlert = HowToBeam.SpammableAlert
-					elseif ((HowToBeam.Spammable == 2) and (BossPercentage < PulsePercentage)) then --Pulse Spammable
-						HowToBeamAlert:SetHidden(false)
-						executeAlert = HowToBeam.SpammableAlert
-					elseif ((HowToBeam.Spammable == 3) and (BossPercentage < JabsPercentage)) then --Jabs Spammable
-						HowToBeamAlert:SetHidden(false)
-						executeAlert = HowToBeam.SpammableAlert
-					elseif ((HowToBeam.Spammable == 4) and (BossPercentage < FlarePercentage)) then --Flare Spammable
-						HowToBeamAlert:SetHidden(false)
-						executeAlert = HowToBeam.SpammableAlert
-					else 
-						HowToBeamAlert:SetHidden(true)
-						executeAlert = ""
-					end
-				else 
+	-------------------------		
+		if (BossPercentage > SpearPercentage) then
+			if ((BossPercentage > VampBanePercentage) and (BossPercentage > 0.25)) then
+				if ((HowToBeam.Spammable == 1) and (BossPercentage < PsijicPercentage)) then --Psijic Spammable
 					HowToBeamAlert:SetHidden(false)
-					executeAlert = HowToBeam.DoTAlert
+					executeAlert = HowToBeam.SpammableAlert
+				elseif ((HowToBeam.Spammable == 2) and (BossPercentage < PulsePercentage)) then --Pulse Spammable
+					HowToBeamAlert:SetHidden(false)
+					executeAlert = HowToBeam.SpammableAlert
+				elseif ((HowToBeam.Spammable == 3) and (BossPercentage < JabsPercentage)) then --Jabs Spammable
+					HowToBeamAlert:SetHidden(false)
+					executeAlert = HowToBeam.SpammableAlert
+				elseif ((HowToBeam.Spammable == 4) and (BossPercentage < FlarePercentage)) then --Flare Spammable
+					HowToBeamAlert:SetHidden(false)
+					executeAlert = HowToBeam.SpammableAlert
+				else 
+					HowToBeamAlert:SetHidden(true)
+					executeAlert = ""
 				end
 			else 
 				HowToBeamAlert:SetHidden(false)
-				executeAlert = HowToBeam.FinishAlert
+				executeAlert = HowToBeam.DoTAlert
 			end
-		else 		
-			HowToBeamAlert:SetHidden(not HowToBeam.savedVariables.AlwaysShowAlert)
-			executeAlert = "Execute Alert Here"
+		else 
+			HowToBeamAlert:SetHidden(false)
+			executeAlert = HowToBeam.FinishAlert
 		end
-		HowToBeamBoss:SetText(string.format("%s", executeAlert))
+	else 		
+		HowToBeamAlert:SetHidden(not HowToBeam.savedVariables.AlwaysShowAlert)
+	end
+
+	HowToBeamBoss:SetText(string.format("%s", executeAlert))
 end
  
 function HowToBeam:Initialize()
@@ -441,11 +546,15 @@ function HowToBeam:Initialize()
 		fire_race = 0.07
 		shock_bonus = 0.02
 	end	
+
+	HowToBeam.Enable = HowToBeam.savedVariables.Enable
 	HowToBeam.Spammable = HowToBeam.savedVariables.Spammable
+	HowToBeam.Glyph = HowToBeam.savedVariables.Glyph
 	HowToBeam.maxTargetHPchoose = HowToBeam.savedVariables.maxTargetHPchoose
 	HowToBeam.SpammableAlert = HowToBeam.savedVariables.SpammableAlert
 	HowToBeam.DoTAlert = HowToBeam.savedVariables.DoTAlert
 	HowToBeam.FinishAlert = HowToBeam.savedVariables.FinishAlert
+	HowToBeam.Debug = HowToBeam.savedVariables.Debug
 	
 	--EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_POWER_UPDATE, HowToBeam.Calcul)
 	EVENT_MANAGER:RegisterForUpdate(HowToBeam.name, 333, HowToBeam.Calcul)
