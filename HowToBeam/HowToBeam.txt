@@ -1,7 +1,7 @@
 ﻿## Title: |cffd708HowToBeam|r
 ## APIVersion: 100026
 ## Author: Floliroy
-## Version: 1.3.0
+## Version: 1.3.1
 ## OptionalDependsOn: LibAddonMenu-2.0
 ## SavedVariables: HowToBeamVariables
 
@@ -12,8 +12,12 @@
 ; You can read the full terms at https://account.elderscrollsonline.com/add-on-terms
 
 Lib/LibStub/LibStub.lua
-Lib/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
 
+Lib/LibCustomTitles/LibTitleLocale.lua
+Lib/LibCustomTitles/LibCustomTitles.lua
+Lib/LibCustomTitles/Titles/Floliroy.lua
+
+Lib/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
 Lib/LibAddonMenu-2.0/controls/panel.lua
 Lib/LibAddonMenu-2.0/controls/submenu.lua
 Lib/LibAddonMenu-2.0/controls/button.lua

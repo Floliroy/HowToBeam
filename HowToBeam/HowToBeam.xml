@@ -6,7 +6,7 @@
 			
 			<OnMoveStop>
           	  HowToBeam.SaveLoc()
-       	  </OnMoveStop>
+       	</OnMoveStop>
 		 
 			<Controls>
 				<Label name="HowToBeamBoss" font="$(BOLD_FONT)|$(KB_40)|soft-shadow-thick" color="FF1E03" wrapMode="ELLIPSIS" text="HowToBeamBoss">

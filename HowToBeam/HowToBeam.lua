@@ -4,7 +4,7 @@ local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 -----------------
 HowToBeam = {}
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "1.3.0"
+HowToBeam.version = "1.3.1"
 
 local SpammableChoice = {
 	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
@@ -538,15 +538,6 @@ function HowToBeam:Initialize()
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
 	
 	--Calculation
-	local race = GetUnitRaceId("player")
-	if race == 7 then
-		fire_race = 0.04
-		shock_bonus = 0.04
-	elseif race == 4 then
-		fire_race = 0.07
-		shock_bonus = 0.02
-	end	
-
 	HowToBeam.Enable = HowToBeam.savedVariables.Enable
 	HowToBeam.Spammable = HowToBeam.savedVariables.Spammable
 	HowToBeam.Glyph = HowToBeam.savedVariables.Glyph
