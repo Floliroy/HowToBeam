@@ -54,7 +54,7 @@ function HowToBeam.CreateSettingsWindow()
 	local panelData = {
 		type = "panel",
 		name = "HowToBeam",
-		displayName = "How To Beam",
+		displayName = "HowTo|cffd708Beam|r",
 		author = "Floliroy",
 		version = HowToBeam.version,
 		slashCommand = "/htbeam",
