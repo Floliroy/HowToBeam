@@ -2,9 +2,11 @@ local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 -----------------
 ---- Globals ----
 -----------------
-HowToBeam = {}
+HowToBeam = HowToBeam or {}
+local HowToBeam = HowToBeam
+
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "1.3.2"
+HowToBeam.version = "1.3.3"
 
 local SpammableChoice = {
 	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
