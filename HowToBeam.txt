@@ -1,4 +1,5 @@
-﻿## Title: HowTo|cffd708Beam|r
+﻿
+## Title: HowTo|cffd708Beam|r
 ## APIVersion: 100027
 ## Author: Floliroy
 ## Version: 1.3.3
