@@ -6,7 +6,7 @@ HowToBeam = HowToBeam or {}
 local HowToBeam = HowToBeam
 
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "1.3.3"
+HowToBeam.version = "1.3.4"
 
 local SpammableChoice = {
 	[1] = GetString(SI_HOWTOBEAM_PSIJIC_NAME),
@@ -426,8 +426,8 @@ function HowToBeam.Calcul()
 		local AbsorbGlyphDamage = 2470 * 0.5 * (1 + AbsorbGlyphBonus)
 
 		local BurningLightDamage = (0.06008 * maxmagicka + 0.62977 * spelldamage - 1.14813) * 1 * (1 + BurningLightBonus)
-		local SpearDamage1 = (0.05875 * maxmagicka + 0.61572 * spelldamage + 1.83991) * 1 * (1 + SpearBonus1)
-		local SpearDamage2 = (0.02473 * maxmagicka + 0.25849 * spelldamage - 0.69002) * 8 * (1 + SpearBonus2)
+		local SpearDamage1 = (0.07993 * maxmagicka + 0.83987 * spelldamage + 0.10061) * 1 * (1 + SpearBonus1)
+		local SpearDamage2 = (0.02371 * maxmagicka + 0.24862 * spelldamage - 0.93128) * 8 * (1 + SpearBonus2)
 		local VampBaneDamage1 = (0.06193 * maxmagicka + 0.65031 * spelldamage + 0.19734) * 1 * (1 + VampBaneBonus1)
 		local VampBaneDamage2 = (0.12787 * maxmagicka + 1.34217 * spelldamage - 2.44535) * 1.2 * (1 + VampBaneBonus2)
 		local VampBaneDamage3 = (maxmagicka/10.5 + spelldamage) * 0.167947210695167 * (6 * 0.06 + 0.2) * 1.4 * (1 + BurningBonus)
