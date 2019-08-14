@@ -12,6 +12,8 @@
 	SI_HOWTOBEAM_MAEL_TT = "Are you using a maelstrom staff.",
 	SI_HOWTOBEAM_GLYPH_NAME = "Main Bar Glyph",
 	SI_HOWTOBEAM_GLYPH_TT =  "Which glyph are you using on your main bar, if you choose 'other' the addon will not take in count your glyph.",
+	SI_HOWTOBEAM_INF_GLYPH_NAME = "Is your Glyph Infused",
+	SI_HOWTOBEAM_INF_GLYPH_TT = "To set if your main bar glyph is on an Infused Staff or not.",
 	SI_HOWTOBEAM_HP_NAME = "HP Threshold",
 	SI_HOWTOBEAM_HP_TT = "The minimum target's max Health in Million for the alert to be enabled.",
 
@@ -31,7 +33,7 @@
 
 	--Settings Part 3
 	SI_HOWTOBEAM_DEBUG_HEADER = "Debug",
-	SI_HOWTOBEAM_DEBUG_DESC = "Kinda empty for now, just help you to check if percentages look goods.",
+	SI_HOWTOBEAM_DEBUG_DESC = "Kinda empty for now on public version...",
 	SI_HOWTOBEAM_DEBUG_NAME = "Debug",
 	SI_HOWTOBEAM_DEBUG_TT = "Shows you in the chat the theoretical percentage (based on your current magic percentage) where you need to :\n	-Change your Spammable\n	-Only refresh Spear and Blockade\n	-Spam Radiant Oppression",
 

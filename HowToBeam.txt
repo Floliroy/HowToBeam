@@ -1,8 +1,8 @@
 ﻿
 ## Title: HowTo|cffd708Beam|r
-## APIVersion: 100027
+## APIVersion: 100028
 ## Author: Floliroy
-## Version: 1.3.4
+## Version: 2.0
 ## DependsOn: LibStub LibAddonMenu-2.0
 ## SavedVariables: HowToBeamVariables
 
@@ -20,4 +20,6 @@ Lang/en.lua
 Lang/$(language).lua
 
 HowToBeam.xml
+HowToBeamDatas.lua
+HowToBeamSettings.lua
 HowToBeam.lua

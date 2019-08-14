@@ -11,6 +11,8 @@ SafeAddString(SI_HOWTOBEAM_MAEL_NAME, "Baton de Maelstrom", 1)
 SafeAddString(SI_HOWTOBEAM_MAEL_TT, "Utilisez-vous un baton de maelstrom ?", 1)
 SafeAddString(SI_HOWTOBEAM_GLYPH_NAME, "Glyphe Principale", 1)
 SafeAddString(SI_HOWTOBEAM_GLYPH_TT, "Choix de la glyphe sur votre barre principale, si vous choisissez 'autre' votre glyphe ne sera pas prise en compte.", 1)
+SafeAddString(SI_HOWTOBEAM_INF_GLYPH_NAME, "Glyphe en Infusé", 1)
+SafeAddString(SI_HOWTOBEAM_INF_GLYPH_TT, "Votre glyphe principale est-elle sur un Bâton Infusé ?", 1)
 SafeAddString(SI_HOWTOBEAM_HP_NAME, "Seuil d'HP", 1)
 SafeAddString(SI_HOWTOBEAM_HP_TT, "Le minimum de Santé max de la cible en Million pour que l'alerte soit activée.", 1)
 
@@ -30,7 +32,7 @@ SafeAddString(SI_HOWTOBEAM_COLOR_TT, "Choisissez la couleur de l'alerte que vous
 
 --Settings Part 3
 SafeAddString(SI_HOWTOBEAM_DEBUG_HEADER, "Debug", 1)
-SafeAddString(SI_HOWTOBEAM_DEBUG_DESC, "Plutot vide pour le moment, sert juste a verifier que les pourcentages semblent corrects.", 1)
+SafeAddString(SI_HOWTOBEAM_DEBUG_DESC, "Plutot vide pour le moment sur la version publique...", 1)
 SafeAddString(SI_HOWTOBEAM_DEBUG_NAME, "Debug", 1)
 SafeAddString(SI_HOWTOBEAM_DEBUG_TT, "Affiche dans le chat les pourcentages théoriques (basés sur votre pourcentage de magie actuel) ou vous devez :\n  -Changer de Spammable\n -Ne reposer que la Lance et le Barrage\n	-Spam l'Oppression Radieuse", 1)
 
