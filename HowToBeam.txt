@@ -3,7 +3,7 @@
 ## APIVersion: 100028
 ## Author: Floliroy
 ## Version: 2.0
-## DependsOn: LibStub LibAddonMenu-2.0
+## DependsOn: LibAddonMenu-2.0
 ## SavedVariables: HowToBeamVariables
 
 ; This Add-on is not created by, affiliated with or sponsored by ZeniMax Media Inc. or its affiliates. 
