@@ -241,7 +241,7 @@ function HowToBeam.Calcul()
 		end
 		cpt = cpt + 1
 
-		if bossPercentage < 0.20 and currentDPS ~= nil then
+		if bossPercentage < 0.25 and currentDPS ~= nil then
             bossPercentage = (currentTargetHP - currentDPS) / maxTargetHP
 		end
 

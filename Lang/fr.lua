@@ -19,8 +19,8 @@ SafeAddString(SI_HOWTOBEAM_HP_TT, "Le minimum de Santé max de la cible en Milli
 --Settings Part 2
 SafeAddString(SI_HOWTOBEAM_CUSTOMIZATION_HEADER, "Customisation", 1)
 SafeAddString(SI_HOWTOBEAM_CUSTOMIZATION_DESC, "D'autres paramètres pour personnaliser votre Extension HowToBeam.", 1)
-SafeAddString(SI_HOWTOBEAM_SPAMMABLEALERT_NAME, "Alerte de Spammable", 1)
-SafeAddString(SI_HOWTOBEAM_SPAMMABLEALERT_TT, "Quelle alerte vous voulez, quand vous pouvez commencer à utiliser l'Oppression en tant que Spammable.\nPensez à garder tous vos DoTs actifs.", 1)
+SafeAddString(SI_HOWTOBEAM_SPAMMABLEALERT_NAME, "Alerte de Commencement", 1)
+SafeAddString(SI_HOWTOBEAM_SPAMMABLEALERT_TT, "Quelle alerte vous voulez, quand vous pouvez commencer à utiliser l'Oppression à la place de votre spammable ou de votre DoT le plus faible.\nPensez à garder tous vos DoTs actifs.", 1)
 SafeAddString(SI_HOWTOBEAM_DOTALERT_NAME, "Alerte de Lance+Barrage", 1)
 SafeAddString(SI_HOWTOBEAM_DOTALERT_TT, "Quelle alerte vous voulez, quand les seuls DoTs à reposer sont la Lance et le Barrage.", 1)
 SafeAddString(SI_HOWTOBEAM_FINISHALERT_NAME, "Alerte de Spam Oppression", 1)

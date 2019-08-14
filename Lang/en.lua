@@ -20,8 +20,8 @@
 	--Settings Part 2
 	SI_HOWTOBEAM_CUSTOMIZATION_HEADER = "Customization",
 	SI_HOWTOBEAM_CUSTOMIZATION_DESC = "Other settings to customize your HowToBeam Add-On.",
-	SI_HOWTOBEAM_SPAMMABLEALERT_NAME = "Spammable Alert",
-	SI_HOWTOBEAM_SPAMMABLEALERT_TT = "What alert you want, when you can start use Radiant instead of your Spammable.\nRemember to keep all your DoTs up.",
+	SI_HOWTOBEAM_SPAMMABLEALERT_NAME = "Beggining Alert",
+	SI_HOWTOBEAM_SPAMMABLEALERT_TT = "What alert you want, when you can start use Radiant and dropping your spammable or weakest DoT.\nRemember to keep all your DoTs up.",
 	SI_HOWTOBEAM_DOTALERT_NAME = "Spear+Blockade Alert",
 	SI_HOWTOBEAM_DOTALERT_TT = "What alert you want, when the only DoTs you need to refresh are Spear and Blockade.",
 	SI_HOWTOBEAM_FINISHALERT_NAME = "Radiant Spam Alert",
