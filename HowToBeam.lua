@@ -5,7 +5,7 @@ HowToBeam = HowToBeam or {}
 local HowToBeam = HowToBeam
 
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "2.0"
+HowToBeam.version = "2.1"
 
 local cpt = 0
 local lastHP = {}
@@ -428,18 +428,20 @@ function HowToBeam:Initialize()
 	HTBAlert_Label:SetColor(unpack(sV.ColorRGB))
 
 	--Events
-	HowToBeam.ChangeChampionPoints(nil, CHAMPION_PURCHASE_SUCCESS)
-	local activeHotbarCategory = GetActiveHotbarCategory()
-	for i = 1, 5 do
-		if activeHotbarCategory == HOTBAR_CATEGORY_PRIMARY then
-			skills.primaryBar[i] = zo_strformat(SI_ABILITY_NAME, GetSlotName(i + 2))
-		elseif activeHotbarCategory == HOTBAR_CATEGORY_BACKUP then
-			skills.secondaryBar[i] = zo_strformat(SI_ABILITY_NAME, GetSlotName(i + 2))
+	if GetUnitClassId("player") == 6 then
+		HowToBeam.ChangeChampionPoints(nil, CHAMPION_PURCHASE_SUCCESS)
+		local activeHotbarCategory = GetActiveHotbarCategory()
+		for i = 1, 5 do
+			if activeHotbarCategory == HOTBAR_CATEGORY_PRIMARY then
+				skills.primaryBar[i] = zo_strformat(SI_ABILITY_NAME, GetSlotName(i + 2))
+			elseif activeHotbarCategory == HOTBAR_CATEGORY_BACKUP then
+				skills.secondaryBar[i] = zo_strformat(SI_ABILITY_NAME, GetSlotName(i + 2))
+			end
 		end
+		EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_ACTION_SLOT_STATE_UPDATED, HowToBeam.ChangeSkill)
+		EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_CHAMPION_PURCHASE_RESULT, HowToBeam.ChangeChampionPoints)
+		EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_PLAYER_COMBAT_STATE, HowToBeam.CombatState)
 	end
-	EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_ACTION_SLOT_STATE_UPDATED, HowToBeam.ChangeSkill)
-	EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_CHAMPION_PURCHASE_RESULT, HowToBeam.ChangeChampionPoints)
-	EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_PLAYER_COMBAT_STATE, HowToBeam.CombatState)
 
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
 end
@@ -450,7 +452,7 @@ function HowToBeam.SaveLoc()
 end
 
 function HowToBeam.OnAddOnLoaded(event, addonName)
-	if addonName ~= HowToBeam.name or GetUnitClassId("player") ~= 6 then return end
+	if addonName ~= HowToBeam.name then return end
 		HowToBeam:Initialize()
 end
 
