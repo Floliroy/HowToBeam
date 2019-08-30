@@ -5,7 +5,7 @@ HowToBeam = HowToBeam or {}
 local HowToBeam = HowToBeam
 
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "2.1"
+HowToBeam.version = "2.2"
 
 local cpt = 0
 local lastHP = {}
@@ -38,6 +38,8 @@ local STRING_SHOCK_REACH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(38978))
 local STRING_SHOCK_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29089))
 
 HowToBeam.DotsUsed = {}
+HowToBeam.fireStaff = 0
+HowToBeam.shockStaff = 0
 ---------------------------
 ---- Variables Default ----
 ---------------------------
@@ -75,7 +77,9 @@ function HowToBeam.UnpackDatas(skillName)
 					bonus = bonus + fireBonus
 				end
 				if skill.bonus[i].fire_staff then
-					bonus = bonus + 0.08
+					bonus = bonus + (0.08 * HowToBeam.fireStaff)
+				elseif skill.bonus[i].fire_staff ~= nil and skill.bonus[i].fire_staff == false then
+					bonus = bonus + (0.08 * HowToBeam.shockStaff)
 				end
 				if skill.bonus[i].expertElem then
 					bonus = bonus + HowToBeam.ExpertElem
@@ -235,13 +239,13 @@ function HowToBeam.Calcul()
 			targetName = GetUnitNameHighlightedByReticle("reticleover")
 		else
 			lastHP[cpt] = currentTargetHP
-			if cpt > 3*4 then
-				currentDPS = lastHP[cpt - 3*4] - currentTargetHP
+			if cpt > 3*5 then
+				currentDPS = lastHP[cpt - 3*5] - currentTargetHP
 			end
 		end
 		cpt = cpt + 1
 
-		if bossPercentage < 0.25 and currentDPS ~= nil then
+		if bossPercentage < 0.35 and currentDPS ~= nil then
             bossPercentage = (currentTargetHP - currentDPS) / maxTargetHP
 		end
 
@@ -273,15 +277,25 @@ function HowToBeam.Calcul()
 			if (spammablePercentage and bossPercentage < spammablePercentage) or dotNumber < #HowToBeam.DotsUsed then
 				alertText = sV.SpammableAlert
 				if sV.showWhatToDrop and HowToBeam.SpammableUsed ~= "null" then
-					alertText = alertText .. "\nDrop: " .. HowToBeam.SpammableUsed
+					alertText = alertText .. "\nDrop: " .. HowToBeam.Datas[HowToBeam.SpammableUsed].icon
 				end
-				if sV.showWhatToDrop and HowToBeam.SpammableUsed == "null" and dotNumber >= #HowToBeam.DotsUsed - 1 then
+				if sV.showWhatToDrop and HowToBeam.SpammableUsed ~= "null" and dotNumber >= #HowToBeam.DotsUsed - 2 and dotNumber ~= #HowToBeam.DotsUsed then
+					alertText = alertText .. " & "
+					for i = 1, #skillsToDrop do
+						if i ~= #skillsToDrop then
+							alertText = alertText .. HowToBeam.Datas[skillsToDrop[i]].icon .. " & "
+						else
+							alertText = alertText .. HowToBeam.Datas[skillsToDrop[i]].icon
+						end
+					end
+				end
+				if sV.showWhatToDrop and HowToBeam.SpammableUsed == "null" and dotNumber >= #HowToBeam.DotsUsed - 3 then
 					alertText = alertText .. "\nDrop: "
 					for i = 1, #skillsToDrop do
 						if i ~= #skillsToDrop then
-							alertText = alertText .. skillsToDrop[i] .. " &\n"
+							alertText = alertText .. HowToBeam.Datas[skillsToDrop[i]].icon .. " & "
 						else
-							alertText = alertText .. skillsToDrop[i]
+							alertText = alertText .. HowToBeam.Datas[skillsToDrop[i]].icon
 						end
 					end
 				end
@@ -378,6 +392,22 @@ end
 function HowToBeam.CombatState(_, inCombat)
 	if not sV.Enable then return end
 	if inCombat then
+		--trigger the functions
+		--staff element
+		HowToBeam.fireStaff = 0
+		HowToBeam.shockStaff = 0
+		if GetItemWeaponType(0,EQUIP_SLOT_MAIN_HAND) == WEAPONTYPE_FIRE_STAFF then
+			HowToBeam.fireStaff = HowToBeam.fireStaff + 0.6 --60%
+		elseif GetItemWeaponType(0,EQUIP_SLOT_MAIN_HAND) == WEAPONTYPE_LIGHTNING_STAFF then
+			HowToBeam.shockStaff = HowToBeam.fireStaff + 0.6
+		end
+		if GetItemWeaponType(0,EQUIP_SLOT_BACKUP_MAIN) == WEAPONTYPE_FIRE_STAFF then
+			HowToBeam.fireStaff = HowToBeam.fireStaff + 0.4 --40%
+		elseif GetItemWeaponType(0,EQUIP_SLOT_BACKUP_MAIN) == WEAPONTYPE_LIGHTNING_STAFF then
+			HowToBeam.shockStaff = HowToBeam.shockStaff + 0.4
+		end
+
+		--skills relative
 		local spammableList = {}
 		local spammableCpt = 0
 		for i = 1, 5 do
@@ -404,9 +434,65 @@ function HowToBeam.CombatState(_, inCombat)
 		EVENT_MANAGER:RegisterForUpdate(HowToBeam.name, 333, HowToBeam.Calcul)
 		EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_RETICLE_TARGET_CHANGED, HowToBeam.Calcul)
 	else
+		--unregister all
 		EVENT_MANAGER:UnregisterForUpdate(HowToBeam.name)
 		EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_RETICLE_TARGET_CHANGED)
 		HTBAlert:SetHidden(true)
+	end
+end
+
+function HowToBeam.Debug()
+	--check skills
+	for i = 1, 5 do
+		if skills.primaryBar[i] == nil	or skills.secondaryBar[i] == nil then
+			d("|cffd708Do a bar switch to register for your other bar's abilities.|r")
+			return
+		end
+	end
+
+	--bonus
+	HowToBeam.fireStaff = 0
+	HowToBeam.shockStaff = 0
+	if GetItemWeaponType(0,EQUIP_SLOT_MAIN_HAND) == WEAPONTYPE_FIRE_STAFF then
+		HowToBeam.fireStaff = HowToBeam.fireStaff + 0.6 --60%
+	elseif GetItemWeaponType(0,EQUIP_SLOT_MAIN_HAND) == WEAPONTYPE_LIGHTNING_STAFF then
+		HowToBeam.shockStaff = HowToBeam.fireStaff + 0.6
+	end
+	if GetItemWeaponType(0,EQUIP_SLOT_BACKUP_MAIN) == WEAPONTYPE_FIRE_STAFF then
+		HowToBeam.fireStaff = HowToBeam.fireStaff + 0.4 --40%
+	elseif GetItemWeaponType(0,EQUIP_SLOT_BACKUP_MAIN) == WEAPONTYPE_LIGHTNING_STAFF then
+		HowToBeam.shockStaff = HowToBeam.shockStaff + 0.4
+	end
+	damageBonus, fireBonus = HowToBeam.GetDamageBonus()
+	spellDamage = GetPlayerStat(STAT_SPELL_POWER)
+	currentMagicka, maxMagicka, effMaxMagicka = GetUnitPower("player", POWERTYPE_MAGICKA)
+
+	--LA dmg
+	local lightAttackBonus = damageBonus + fireBonus + 0.08 + HowToBeam.ExpertElem + HowToBeam.MasterArms + HowToBeam.StaffExpert
+	local lightAttackMABonus = damageBonus + fireBonus + 0.08 + HowToBeam.ExpertElem + HowToBeam.MasterArms
+	local lightAttackDamage = (0.0450633 * maxMagicka + 0.471863 * spellDamage - 0.865957) * 1 * (1 + lightAttackBonus)
+	local lightAttackMADamage = 1341 * (1 + lightAttackMABonus)
+	lightAttackTotal = GetLightAttackTotal(lightAttackDamage, lightAttackMADamage)
+
+	--radiant dmg
+	local radiantBonus = damageBonus + 0.08 + HowToBeam.ExpertElem + HowToBeam.MasterArms
+	local actualMagicka = currentMagicka / maxMagicka
+	local radiantDamage = (0.11651 * maxMagicka + 1.22302 * spellDamage - 2.76818) * 1 * (1 + radiantBonus) * (1 + 0.2 * actualMagicka)
+
+	--all other skills
+	for i = 1, 5 do
+		if HowToBeam.Datas[skills.primaryBar[i]] then
+			local total = HowToBeam.UnpackDatas(skills.primaryBar[i])
+			local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage)
+			percent = tostring(string.format("%.3f", percent)) * 100
+			d("|cffd708" .. skills.primaryBar[i] .. "|r: " .. percent .. "%")
+		end
+		if HowToBeam.Datas[skills.secondaryBar[i]] then
+			local total = HowToBeam.UnpackDatas(skills.secondaryBar[i])
+			local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage)
+			percent = tostring(string.format("%.3f", percent)) * 100
+			d("|cffd708" .. skills.secondaryBar[i] .. "|r: " .. percent .. "%")
+		end
 	end
 end
 
@@ -443,6 +529,8 @@ function HowToBeam:Initialize()
 		EVENT_MANAGER:RegisterForEvent(HowToBeam.name, EVENT_PLAYER_COMBAT_STATE, HowToBeam.CombatState)
 	end
 
+	--HTBAlert_Label:SetText("|t50:50:esoui/art/icons/ability_templar_vampire_bane.dds|t")
+	--HTBAlert:SetHidden(false)
 	EVENT_MANAGER:UnregisterForEvent(HowToBeam.name, EVENT_ADD_ON_LOADED)
 end
 

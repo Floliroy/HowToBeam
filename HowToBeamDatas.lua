@@ -27,6 +27,7 @@ local STRING_SHOCK_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29089))
 
 HowToBeam.Datas = {
     [STRING_PULSE_UNMORPHED] = {
+        icon = "|t50:50:esoui/art/icons/ability_destructionstaff_001.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Fire hit
@@ -66,6 +67,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_CRUSHING_SHOCK] = {
+        icon = "|t50:50:esoui/art/icons/ability_destructionstaff_001a.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Fire hit
@@ -105,6 +107,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_FORCE_PULSE] = {
+        icon = "|t50:50:esoui/art/icons/ability_destructionstaff_001b.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Fire hit
@@ -144,6 +147,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_ELEMENTAL_WEAPON] = {
+        icon = "|t50:50:esoui/art/icons/ability_psijic_003_a.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Initial Hit
@@ -183,6 +187,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_SWEEP_UNMORPHED] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_recovery.dds|t",
         castTime = 1.4, --find by doing some weaving and checking timers
         bonus = {
             [1] = { --Single target hit
@@ -206,6 +211,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_PUNCTURING_SWEEP] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_reckless_attacks.dds|t",
         castTime = 1.4, --find by doing some weaving and checking timers
         bonus = {
             [1] = { --Single target hit
@@ -229,6 +235,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_FLARE_UNMORPHED] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_solar_flare.dds|t",
         castTime = 1.4, --find by doing some weaving and checking timers
         bonus = {
             [1] = { --Initial hit
@@ -252,6 +259,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_DARK_FLARE] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_dark_flare.dds|t",
         castTime = 1.4, --find by doing some weaving and checking timers
         bonus = {
             [1] = { --Initial hit
@@ -275,6 +283,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_SUN_FIRE] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_sun_fire.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --First hit
@@ -306,6 +315,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_VAMPIRE_BANE] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_vampire_bane.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --First hit
@@ -337,6 +347,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_REFLECTIVE_LIGHT] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_reflective_light.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --First hit
@@ -368,6 +379,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_SOLAR_BARRAGE] = {
+        icon = "|t50:50:esoui/art/icons/ability_templar_solar_power.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Dot dmg
@@ -391,6 +403,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_ENTROPY] = {
+        icon = "|t50:50:esoui/art/icons/ability_mageguild_004.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Dot dmg
@@ -414,6 +427,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_DEGENERATION] = {
+        icon = "|t50:50:esoui/art/icons/ability_mageguild_004_a.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Dot dmg
@@ -437,6 +451,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_STRUCTURED_ENTROPY] = {
+        icon = "|t50:50:esoui/art/icons/ability_mageguild_004_b.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Dot dmg
@@ -460,6 +475,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_SOUL_TRAP] = {
+        icon = "|t50:50:esoui/art/icons/ability_otherclass_001.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Dot dmg
@@ -475,6 +491,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_SOUL_SPLIT_TRAP] = {
+        icon = "|t50:50:esoui/art/icons/ability_otherclass_001_a.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Dot dmg
@@ -490,6 +507,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_CONSUMING_TRAP] = {
+        icon = "|t50:50:esoui/art/icons/ability_otherclass_001_b.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --Dot dmg
@@ -505,6 +523,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_FLAME_REACH] = {
+        icon = "|t50:50:esoui/art/icons/ability_destructionstaff_007_b.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --First hit
@@ -536,6 +555,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_FLAME_TOUCH] = {
+        icon = "|t50:50:esoui/art/icons/ability_destructionstaff_007.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --First hit
@@ -567,6 +587,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_SHOCK_REACH] = {
+        icon = "|t50:50:esoui/art/icons/ability_destructionstaff_006_b.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --First hit
@@ -598,6 +619,7 @@ HowToBeam.Datas = {
         }
     },
     [STRING_SHOCK_TOUCH] = {
+        icon = "|t50:50:esoui/art/icons/ability_destructionstaff_006.dds|t",
         castTime = 1,
         bonus = {
             [1] = { --First hit

@@ -32,9 +32,9 @@ SafeAddString(SI_HOWTOBEAM_COLOR_TT, "Choisissez la couleur de l'alerte que vous
 
 --Settings Part 3
 SafeAddString(SI_HOWTOBEAM_DEBUG_HEADER, "Debug", 1)
-SafeAddString(SI_HOWTOBEAM_DEBUG_DESC, "Plutot vide pour le moment sur la version publique...", 1)
+SafeAddString(SI_HOWTOBEAM_DEBUG_DESC, " ", 1)
 SafeAddString(SI_HOWTOBEAM_DEBUG_NAME, "Debug", 1)
-SafeAddString(SI_HOWTOBEAM_DEBUG_TT, "Affiche dans le chat les pourcentages théoriques (basés sur votre pourcentage de magie actuel) ou vous devez :\n  -Changer de Spammable\n -Ne reposer que la Lance et le Barrage\n	-Spam l'Oppression Radieuse", 1)
+SafeAddString(SI_HOWTOBEAM_DEBUG_TT, "Affiche dans le chat les pourcentages théoriques (basés sur votre pourcentage de magie actuel) ou une Oppression sera mieux que tel ou tel sort (prend en compte la durée totale des DoTs).", 1)
 
 --Spammable
 SafeAddString(SI_HOWTOBEAM_PSIJIC_NAME, "Arme Élémentaire", 1)

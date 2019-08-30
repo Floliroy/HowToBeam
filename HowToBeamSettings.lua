@@ -170,17 +170,16 @@ function HowToBeam.CreateSettingsWindow()
 		{
 			type = "button",
 			name = GetString(SI_HOWTOBEAM_DEBUG_NAME),
-			--tooltip = GetString(SI_HOWTOBEAM_DEBUG_TT),
-			tooltip = "Not Working on version 2+",
+			tooltip = GetString(SI_HOWTOBEAM_DEBUG_TT),
 			func = function()
-				--To do again
+				HowToBeam.Debug()
 			end,
 			width = "half",
 		},
 		{
 			type = "checkbox",
 			name = "Advanced Mode",
-			tooltip = "With this mode the first Alert will tell you which skill to drop.\nStill in test, i would recommend you to not use it or only for testing on dummy.",
+			tooltip = "With this mode the first Alert will tell you which skills to drop.",
 			default = false,
 			getFunc = function() return sV.showWhatToDrop end,
 			setFunc = function(newValue)

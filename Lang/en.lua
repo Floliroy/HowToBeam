@@ -33,9 +33,9 @@
 
 	--Settings Part 3
 	SI_HOWTOBEAM_DEBUG_HEADER = "Debug",
-	SI_HOWTOBEAM_DEBUG_DESC = "Kinda empty for now on public version...",
+	SI_HOWTOBEAM_DEBUG_DESC = " ",
 	SI_HOWTOBEAM_DEBUG_NAME = "Debug",
-	SI_HOWTOBEAM_DEBUG_TT = "Shows you in the chat the theoretical percentage (based on your current magic percentage) where you need to :\n	-Change your Spammable\n	-Only refresh Spear and Blockade\n	-Spam Radiant Oppression",
+	SI_HOWTOBEAM_DEBUG_TT = "Shows you in the chat the theoretical percentage (based on your current magic percentage) where one Radiant would be better than this or that skills (take into account full duration for DoTs).",
 
 	--Spammable
 	SI_HOWTOBEAM_PSIJIC_NAME = "Elemental Weapon",
