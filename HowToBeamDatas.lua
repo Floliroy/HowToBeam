@@ -23,6 +23,7 @@ local STRING_FLAME_REACH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(38944))
 local STRING_FLAME_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29073))
 local STRING_SHOCK_REACH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(38978))
 local STRING_SHOCK_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29089))
+local STRING_SCALDING_RUNE = zo_strformat(SI_ABILITY_NAME, GetAbilityName(40465))
 
 
 HowToBeam.Datas = {
@@ -310,7 +311,7 @@ HowToBeam.Datas = {
                 magicka = 0.0167947210695167,
                 spellDamage = 0.167947210695167,
                 additional = 0,
-                mulitplier = (5 * 0.06 + 0.2) * 1.4,
+                mulitplier = (5 * 0.06 + 0.2) * 1.2,
             },
         }
     },
@@ -342,7 +343,7 @@ HowToBeam.Datas = {
                 magicka = 0.0167947210695167,
                 spellDamage = 0.167947210695167,
                 additional = 0,
-                mulitplier = (7 * 0.06 + 0.2) * 1.4,
+                mulitplier = (7 * 0.06 + 0.2) * 1.2,
             },
         }
     },
@@ -374,7 +375,7 @@ HowToBeam.Datas = {
                 magicka = 0.0167947210695167,
                 spellDamage = 0.167947210695167,
                 additional = 0,
-                mulitplier = (5 * 0.06 + 0.2) * 1.4,
+                mulitplier = (5 * 0.06 + 0.2) * 1.2,
             },
         }
     },
@@ -550,7 +551,7 @@ HowToBeam.Datas = {
                 magicka = 0.0167947210695167,
                 spellDamage = 0.167947210695167,
                 additional = 0,
-                mulitplier = (5 * 0.06 + 0.2) * 1.4,
+                mulitplier = (5 * 0.06 + 0.2) * 1.2,
             },
         }
     },
@@ -582,7 +583,7 @@ HowToBeam.Datas = {
                 magicka = 0.0167947210695167,
                 spellDamage = 0.167947210695167,
                 additional = 0,
-                mulitplier = (5 * 0.06 + 0.2) * 1.4,
+                mulitplier = (5 * 0.06 + 0.2) * 1.2,
             },
         }
     },
@@ -647,6 +648,38 @@ HowToBeam.Datas = {
                 spellDamage = 0.08743955967,
                 additional = 0,
                 mulitplier = 5 * 0.06 + 0.2
+            }
+        }
+    },
+    [STRING_SCALDING_RUNE] = {
+        icon = "|t50:50:esoui/art/icons/ability_mageguild_001_b.dds|t",
+        castTime = 1,
+        bonus = {
+            [1] = { --First hit
+                fire_bonus = true,  fire_staff = false,  expertElem = true,  masterArms = true,  staffExpert = false,    thaumaturge = false,    },
+            [2] = { --DoT dmg
+                fire_bonus = true, fire_staff = true,  expertElem = true,  masterArms = false,  staffExpert = false,    thaumaturge = true,    },
+            [3] = { --Burning
+                fire_bonus = true,  fire_staff = true,  expertElem = true,  masterArms = false, staffExpert = false,    thaumaturge = true,     },
+        },
+        factor = {
+            [1] = { --First hit
+                magicka = 0.10336,
+                spellDamage = 1.08424,
+                additional = -1.17499,
+                mulitplier = 1,
+            },
+            [2] = { --DoT dmg
+                magicka = 0.13336,
+                spellDamage = 1.39894,
+                additional = -6.78425,
+                mulitplier = 1,
+            },
+            [3] = { --Burning
+                magicka = 0.0167947210695167,
+                spellDamage = 0.167947210695167,
+                additional = 0,
+                mulitplier = (7 * 0.02 + 0.1) * 1.2,
             }
         }
     },

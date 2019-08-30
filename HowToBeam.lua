@@ -5,7 +5,7 @@ HowToBeam = HowToBeam or {}
 local HowToBeam = HowToBeam
 
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "2.2"
+HowToBeam.version = "2.3"
 
 local cpt = 0
 local lastHP = {}
@@ -36,6 +36,7 @@ local STRING_FLAME_REACH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(38944))
 local STRING_FLAME_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29073))
 local STRING_SHOCK_REACH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(38978))
 local STRING_SHOCK_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29089))
+local STRING_SCALDING_RUNE = zo_strformat(SI_ABILITY_NAME, GetAbilityName(40465))
 
 HowToBeam.DotsUsed = {}
 HowToBeam.fireStaff = 0
@@ -337,14 +338,14 @@ function HowToBeam.ChangeSkill(_, actionSlotIndex)
 
 		HowToBeam.DotsUsed = {}
 		for i = 1, 5 do
-			if skills.primaryBar[i] == STRING_SUN_FIRE or skills.primaryBar[i] == STRING_VAMPIRE_BANE or skills.primaryBar[i] == STRING_REFLECTIVE_LIGHT or skills.primaryBar[i] == STRING_SOLAR_BARRAGE or skills.primaryBar[i] == STRING_ENTROPY or 
+			if skills.primaryBar[i] == STRING_SUN_FIRE or skills.primaryBar[i] == STRING_VAMPIRE_BANE or skills.primaryBar[i] == STRING_REFLECTIVE_LIGHT or skills.primaryBar[i] == STRING_SOLAR_BARRAGE or skills.primaryBar[i] == STRING_ENTROPY or
 			skills.primaryBar[i] == STRING_DEGENERATION or skills.primaryBar[i] == STRING_STRUCTURED_ENTROPY or skills.primaryBar[i] == STRING_SOUL_TRAP or skills.primaryBar[i] == STRING_SOUL_SPLIT_TRAP or skills.primaryBar[i] == STRING_CONSUMING_TRAP or
-			skills.primaryBar[i] == STRING_FLAME_REACH or skills.primaryBar[i] == STRING_FLAME_TOUCH or skills.primaryBar[i] == STRING_SHOCK_REACH or skills.primaryBar[i] == STRING_SHOCK_TOUCH then
+			skills.primaryBar[i] == STRING_FLAME_REACH or skills.primaryBar[i] == STRING_FLAME_TOUCH or skills.primaryBar[i] == STRING_SHOCK_REACH or skills.primaryBar[i] == STRING_SHOCK_TOUCH or skills.primaryBar[i] == STRING_SCALDING_RUNE then
 				table.insert(HowToBeam.DotsUsed, skills.primaryBar[i])
 			end
-			if skills.secondaryBar[i] == STRING_SUN_FIRE or skills.secondaryBar[i] == STRING_VAMPIRE_BANE or skills.secondaryBar[i] == STRING_REFLECTIVE_LIGHT or skills.secondaryBar[i] == STRING_SOLAR_BARRAGE or skills.secondaryBar[i] == STRING_ENTROPY or 
+			if skills.secondaryBar[i] == STRING_SUN_FIRE or skills.secondaryBar[i] == STRING_VAMPIRE_BANE or skills.secondaryBar[i] == STRING_REFLECTIVE_LIGHT or skills.secondaryBar[i] == STRING_SOLAR_BARRAGE or skills.secondaryBar[i] == STRING_ENTROPY or
 			skills.secondaryBar[i] == STRING_DEGENERATION or skills.secondaryBar[i] == STRING_STRUCTURED_ENTROPY or skills.secondaryBar[i] == STRING_SOUL_TRAP or skills.secondaryBar[i] == STRING_SOUL_SPLIT_TRAP or skills.secondaryBar[i] == STRING_CONSUMING_TRAP or
-			skills.secondaryBar[i] == STRING_FLAME_REACH or skills.secondaryBar[i] == STRING_FLAME_TOUCH or skills.secondaryBar[i] == STRING_SHOCK_REACH or skills.secondaryBar[i] == STRING_SHOCK_TOUCH then
+			skills.secondaryBar[i] == STRING_FLAME_REACH or skills.secondaryBar[i] == STRING_FLAME_TOUCH or skills.secondaryBar[i] == STRING_SHOCK_REACH or skills.secondaryBar[i] == STRING_SHOCK_TOUCH or skills.secondaryBar[i] == STRING_SCALDING_RUNE then
 				table.insert(HowToBeam.DotsUsed, skills.secondaryBar[i])
 			end
 		end
@@ -443,10 +444,14 @@ end
 
 function HowToBeam.Debug()
 	--check skills
+	local cptSkills = 0
 	for i = 1, 5 do
-		if skills.primaryBar[i] == nil	or skills.secondaryBar[i] == nil then
-			d("|cffd708Do a bar switch to register for your other bar's abilities.|r")
-			return
+		if skills.primaryBar[i] == nil or skills.secondaryBar[i] == nil then
+			cptSkills = cptSkills + 1
+			if cptSkills >= 5 then
+				d("|cffd708Do a bar switch to register for your other bar's abilities.|r")
+				return
+			end
 		end
 	end
 
@@ -494,6 +499,11 @@ function HowToBeam.Debug()
 			d("|cffd708" .. skills.secondaryBar[i] .. "|r: " .. percent .. "%")
 		end
 	end
+
+	--[[local total = HowToBeam.UnpackDatas(STRING_SCALDING_RUNE)
+	local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage)
+	percent = tostring(string.format("%.3f", percent)) * 100
+	d("|cffd708" .. STRING_SCALDING_RUNE .. "|r: " .. percent .. "%")]]
 end
 
 ----------
