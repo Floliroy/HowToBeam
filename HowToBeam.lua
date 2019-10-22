@@ -397,6 +397,8 @@ function HowToBeam.CombatState(_, inCombat)
 		--staff element
 		HowToBeam.fireStaff = 0
 		HowToBeam.shockStaff = 0
+
+		--GetItemTrait(0,EQUIP_SLOT_MAIN_HAND) == ITEM_TRAIT_TYPE_WEAPON_INFUSED
 		if GetItemWeaponType(0,EQUIP_SLOT_MAIN_HAND) == WEAPONTYPE_FIRE_STAFF then
 			HowToBeam.fireStaff = HowToBeam.fireStaff + 0.6 --60%
 		elseif GetItemWeaponType(0,EQUIP_SLOT_MAIN_HAND) == WEAPONTYPE_LIGHTNING_STAFF then

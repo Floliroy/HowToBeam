@@ -42,15 +42,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Fire hit
-                magicka = 0.03101,
-                spellDamage = 0.32498,
-                additional = -1.18266,
+                magicka = 0.03109,
+                spellDamage = 0.32525,
+                additional = -2.38014,
                 mulitplier = 1,
             },
             [2] = { --Two other hits
-                magicka = 0.03101,
-                spellDamage = 0.32498,
-                additional = -1.18266,
+                magicka = 0.03109,
+                spellDamage = 0.32525,
+                additional = -2.38014,
                 mulitplier = 2,
             },
             [3] = { --Burning
@@ -82,15 +82,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Fire hit
-                magicka = 0.03090,
-                spellDamage = 0.32502,
-                additional = 0.21917,
+                magicka = 0.03097,
+                spellDamage = 0.32490,
+                additional = -0.45145,
                 mulitplier = 1,
             },
             [2] = { --Two other hits
-                magicka = 0.03090,
-                spellDamage = 0.32502,
-                additional = 0.21917,
+                magicka = 0.03097,
+                spellDamage = 0.32490,
+                additional = -0.45145,
                 mulitplier = 2,
             },
             [3] = { --Burning
@@ -122,15 +122,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Fire hit
-                magicka = 0.03090,
-                spellDamage = 0.32502,
-                additional = 0.21917,
+                magicka = 0.03097,
+                spellDamage = 0.32490,
+                additional = -0.45145,
                 mulitplier = 1,
             },
             [2] = { --Two other hits
-                magicka = 0.03090,
-                spellDamage = 0.32502,
-                additional = 0.21917,
+                magicka = 0.03097,
+                spellDamage = 0.32490,
+                additional = -0.45145,
                 mulitplier = 2,
             },
             [3] = { --Burning
@@ -162,15 +162,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Initial Hit
-                magicka = 0.09611,
-                spellDamage = 1.00803,
-                additional = -1.92862,
+                magicka = 0.09617,
+                spellDamage = 1.00783,
+                additional = -2.33241,
                 mulitplier = 1,
             },
             [2] = { --Orb proc
-                magicka = 0.04998,
-                spellDamage = 0.52436,
-                additional = -0.33952,
+                magicka = 0.05004,
+                spellDamage = 0.52452,
+                additional = -1.19422,
                 mulitplier = 0.2,
             },
             [3] = { --Burning
@@ -192,15 +192,15 @@ HowToBeam.Datas = {
         castTime = 1.4, --find by doing some weaving and checking timers
         bonus = {
             [1] = { --Single target hit
-                fire_bonus = false,  fire_staff = false,  expertElem = true,  masterArms = false,  staffExpert = false,    thaumaturge = true,    },
+                fire_bonus = false,  fire_staff = false,  expertElem = true,  masterArms = false,  staffExpert = false,    thaumaturge = false,    },
             [2] = { --Burning Light
                 fire_bonus = false, fire_staff = true,  expertElem = true,  masterArms = true,  staffExpert = false,    thaumaturge = false,    },
         },
         factor = {
             [1] = { --Single target hit
-                magicka = 0.03756,
+                magicka = 0.03758,
                 spellDamage = 0.39451,
-                additional = -0.7763,
+                additional = -1.07703,
                 mulitplier = 4,
             },
             [2] = { --Burning Light
@@ -216,15 +216,15 @@ HowToBeam.Datas = {
         castTime = 1.4, --find by doing some weaving and checking timers
         bonus = {
             [1] = { --Single target hit
-                fire_bonus = false,  fire_staff = false,  expertElem = true,  masterArms = false,  staffExpert = false,    thaumaturge = true,    },
+                fire_bonus = false,  fire_staff = false,  expertElem = true,  masterArms = false,  staffExpert = false,    thaumaturge = false,    },
             [2] = { --Burning Light
                 fire_bonus = false, fire_staff = true,  expertElem = true,  masterArms = true,  staffExpert = false,    thaumaturge = false,    },
         },
         factor = {
             [1] = { --Single target hit
-                magicka = 0.03884,
-                spellDamage = 0.40768,
-                additional = -0.92273,
+                magicka = 0.03879,
+                spellDamage = 0.40795,
+                additional = -0.72151,
                 mulitplier = 4,
             },
             [2] = { --Burning Light
@@ -246,9 +246,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Initial hit
-                magicka = 0.03884,
-                spellDamage = 0.40768,
-                additional = -0.92273,
+                magicka = 0.13542,
+                spellDamage = 1.42083,
+                additional = -1.66875,
                 mulitplier = 1,
             },
             [2] = { --Empower LA
@@ -270,9 +270,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Initial hit
-                magicka = 0.13983,
-                spellDamage = 1.46799,
-                additional = -1.12461,
+                magicka = 0.13981,
+                spellDamage = 1.46776,
+                additional = -0.63694,
                 mulitplier = 1,
             },
             [2] = { --Empower LA
@@ -296,16 +296,16 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.05154,
-                spellDamage = 0.54184,
-                additional = -0.01851,
+                magicka = 0.05169,
+                spellDamage = 0.54161,
+                additional = -1.4125,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.15460,
-                spellDamage = 1.62619,
-                additional = -1.10567,
-                mulitplier = 10/8,
+                magicka = 0.10316,
+                spellDamage = 1.08186,
+                additional = -2.10784,
+                mulitplier = 12/10,
             },
             [3] = { --Burning
                 magicka = 0.0167947210695167,
@@ -328,16 +328,16 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.05171,
-                spellDamage = 0.54200,
-                additional = -1.0998,
+                magicka = 0.05157,
+                spellDamage = 0.54204,
+                additional = -0.34911,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.23949,
-                spellDamage = 2.51906,
-                additional = -1.09357,
-                mulitplier = 14/12,
+                magicka = 0.14961,
+                spellDamage = 1.56467,
+                additional = -7.36701,
+                mulitplier = 16/14,
             },
             [3] = { --Burning
                 magicka = 0.0167947210695167,
@@ -360,16 +360,16 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.05343,
-                spellDamage = 0.55978,
-                additional = -1.54695,
+                magicka = 0.05336,
+                spellDamage = 0.55980,
+                additional = -0.82825,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.15454,
-                spellDamage = 1.62607,
-                additional = 1.57791,
-                mulitplier = 10/8,
+                magicka = 0.10365,
+                spellDamage = 1.08225,
+                additional = -5.00951,
+                mulitplier = 12/10,
             },
             [3] = { --Burning
                 magicka = 0.0167947210695167,
@@ -390,16 +390,16 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Dot dmg
-                magicka = 0.02990,
-                spellDamage = 0.31529,
-                additional = -0.25892,
-                mulitplier = 4,
+                magicka = 0.02552,
+                spellDamage = 0.26843,
+                additional = -0.16286,
+                mulitplier = 5,
             },
             [2] = { --Empower LA
                 magicka = 0.0451155,
                 spellDamage = 0.47199,
                 additional = -1.50559,
-                mulitplier = 0.35 * 7,
+                mulitplier = 0.35 * 9,
             },
         }
     },
@@ -414,9 +414,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Dot dmg
-                magicka = 0.25803,
-                spellDamage = 2.71088,
-                additional = -5.24828,
+                magicka = 0.15509,
+                spellDamage = 1.62553,
+                additional = -8.99494,
                 mulitplier = 1,
             },
             [2] = { --Empower LA
@@ -438,9 +438,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Dot dmg
-                magicka = 0.25807,
-                spellDamage = 2.70907,
-                additional = -1.43119,
+                magicka = 0.15462,
+                spellDamage = 1.62531,
+                additional = -1.21171,
                 mulitplier = 1,
             },
             [2] = { --Empower LA
@@ -462,9 +462,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Dot dmg
-                magicka = 0.25807,
-                spellDamage = 2.70907,
-                additional = -1.43119,
+                magicka = 0.15462,
+                spellDamage = 1.62531,
+                additional = -1.21171,
                 mulitplier = 1,
             },
             [2] = { --Empower LA
@@ -484,9 +484,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Dot dmg
-                magicka = 0.25803,
-                spellDamage = 2.71088,
-                additional = -5.24828,
+                magicka = 0.15509,
+                spellDamage = 1.62553,
+                additional = -8.99494,
                 mulitplier = 1,
             },
         }
@@ -500,9 +500,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Dot dmg
-                magicka = 0.19956,
-                spellDamage = 2.03120,
-                additional = -4.49682,
+                magicka = 0.10343,
+                spellDamage = 1.08064,
+                additional = -1.50243,
                 mulitplier = 1,
             },
         }
@@ -516,9 +516,9 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --Dot dmg
-                magicka = 0.25807,
-                spellDamage = 2.70907,
-                additional = -1.43119,
+                magicka = 0.15462,
+                spellDamage = 1.62531,
+                additional = -1.21171,
                 mulitplier = 1,
             },
         }
@@ -536,15 +536,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.02485,
-                spellDamage = 0.55817,
-                additional = 229.80700,
+                magicka = 0.05168,
+                spellDamage = 0.54195,
+                additional = -0.5313,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.20666,
-                spellDamage = 2.16854,
-                additional = -3.80156,
+                magicka = 0.10365,
+                spellDamage = 1.08225,
+                additional = -5.00951,
                 mulitplier = 1,
             },
             [3] = { --Burning
@@ -568,15 +568,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.05154,
-                spellDamage = 0.54184,
-                additional = -0.01851,
+                magicka = 0.05169,
+                spellDamage = 0.54161,
+                additional = -1.4125,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.20704,
-                spellDamage = 2.16582,
-                additional = -7.76069,
+                magicka = 0.10316,
+                spellDamage = 1.08186,
+                additional = -2.10784,
                 mulitplier = 1,
             },
             [3] = { --Burning
@@ -600,15 +600,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.02485,
-                spellDamage = 0.55817,
-                additional = 229.80700,
+                magicka = 0.05168,
+                spellDamage = 0.54195,
+                additional = - 0.5313,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.20666,
-                spellDamage = 2.16854,
-                additional = -3.80156,
+                magicka = 0.10365,
+                spellDamage = 1.08225,
+                additional = -5.00951,
                 mulitplier = 1,
             },
             [3] = { --Concussion
@@ -632,15 +632,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.05154,
-                spellDamage = 0.54184,
-                additional = -0.01851,
+                magicka = 0.05169,
+                spellDamage = 0.54161,
+                additional = -1.4125,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.20704,
-                spellDamage = 2.16582,
-                additional = -7.76069,
+                magicka = 0.10316,
+                spellDamage = 1.08186,
+                additional = -2.10784,
                 mulitplier = 1,
             },
             [3] = { --Concussion
@@ -664,15 +664,15 @@ HowToBeam.Datas = {
         },
         factor = {
             [1] = { --First hit
-                magicka = 0.10336,
-                spellDamage = 1.08424,
-                additional = -1.17499,
+                magicka = 0.10324,
+                spellDamage = 1.08414,
+                additional = 0.23162,
                 mulitplier = 1,
             },
             [2] = { --DoT dmg
-                magicka = 0.13336,
-                spellDamage = 1.39894,
-                additional = -6.78425,
+                magicka = 0.08523,
+                spellDamage = 0.89526,
+                additional = -5.15744,
                 mulitplier = 1,
             },
             [3] = { --Burning
