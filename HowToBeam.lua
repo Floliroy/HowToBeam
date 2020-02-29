@@ -5,7 +5,7 @@ HowToBeam = HowToBeam or {}
 local HowToBeam = HowToBeam
 
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "2.3"
+HowToBeam.version = "2.4"
 
 local cpt = 0
 local lastHP = {}
@@ -37,6 +37,9 @@ local STRING_FLAME_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29073))
 local STRING_SHOCK_REACH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(38978))
 local STRING_SHOCK_TOUCH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(29089))
 local STRING_SCALDING_RUNE = zo_strformat(SI_ABILITY_NAME, GetAbilityName(40465))
+local STRING_BACKLASH = zo_strformat(SI_ABILITY_NAME, GetAbilityName(21761))
+local STRING_PURIFYING_LIGHT = zo_strformat(SI_ABILITY_NAME, GetAbilityName(21765))
+local STRING_RITUAL_RETRIBUTION = zo_strformat(SI_ABILITY_NAME, GetAbilityName(22259))
 
 HowToBeam.DotsUsed = {}
 HowToBeam.fireStaff = 0
@@ -106,8 +109,13 @@ function HowToBeam.UnpackDatas(skillName)
 	end
 end
 
-function HowToBeam.GetThresholdPercentage(dmgToCompare, radiantDmg)
-	return (1 - ((dmgToCompare * 1.8 - lightAttackTotal) / radiantDmg - 1) / 4.8) * 0.5
+function HowToBeam.GetThresholdPercentage(dmgToCompare, radiantDmg, skillName)
+	local offset = 0
+	if skillName == STRING_PULSE_UNMORPHED or skillName == STRING_CRUSHING_SHOCK or skillName == STRING_FORCE_PULSE or	skillName == STRING_ELEMENTAL_WEAPON or
+	skillName == STRING_SWEEP_UNMORPHED or skillName == STRING_PUNCTURING_SWEEP or skillName == STRING_FLARE_UNMORPHED or skillName == STRING_DARK_FLARE then
+		offset = -0.06
+	end
+	return (1 - ((dmgToCompare * 1.8 - lightAttackTotal) / radiantDmg - 1) / 4.8) * 0.5 + offset
 end
 
 function GetLightAttackTotal(dmg, ma)
@@ -217,19 +225,19 @@ function HowToBeam.Calcul()
 
 		--damages
 		--Skills factor are found on uesp : http://esoitem.uesp.net/viewSkills.php
-		local lightAttackDamage = (0.0450633 * maxMagicka + 0.471863 * spellDamage - 0.865957) * 1 * (1 + lightAttackBonus)
+		local lightAttackDamage = (0.0450994 * maxMagicka + 0.47178 * spellDamage - 1.08238) * 1 * (1 + lightAttackBonus)
 		local lightAttackMADamage = 1341 * (1 + lightAttackMABonus)
 
-		local burningLightSpear = (0.0599242 * maxMagicka + 0.629985 * spellDamage - 0.178673) * 9 * 0.25 * (1 + burningLightBonus)
-		local spearDamage1 = (0.07988 * maxMagicka + 0.83993 * spellDamage + 0.50351) * 1 * (1 + spearBonus1)
-		local spearDamage2 = (0.01431 * maxMagicka + 0.14939 * spellDamage - 1.26687) * 8 * (1 + spearBonus2)
+		local burningLightSpear = (0.05996 * maxMagicka + 0.62989 * spellDamage - 0.20105) * 9 * 0.25 * (1 + burningLightBonus)
+		local spearDamage1 = (0.09614 * maxMagicka + 1.00792 * spellDamage + 2.04771) * 1 * (1 + spearBonus1)
+		local spearDamage2 = (0.00968 * maxMagicka + 0.10051 * spellDamage - 1.83685) * 10 * (1 + spearBonus2)
 
-		local radiantDamage = (0.11651 * maxMagicka + 1.22302 * spellDamage - 2.76818) * 1 * (1 + radiantBonus) * (1 + 0.2 * actualMagicka)
+		local radiantDamage = (0.11326 * maxMagicka + 1.18471 * spellDamage - 6.65407) * 1 * (1 + radiantBonus) * (1 + 0.2 * actualMagicka)
 
 		--add the lightattack buff and glyphs
 		lightAttackTotal = GetLightAttackTotal(lightAttackDamage, lightAttackMADamage)
 		local spearTotal = (lightAttackTotal + spearDamage1 + spearDamage2 + burningLightSpear) / 1
-		local spearPercentage = HowToBeam.GetThresholdPercentage(spearTotal, radiantDamage)
+		local spearPercentage = HowToBeam.GetThresholdPercentage(spearTotal, radiantDamage, "")
 		--d("Lance Ardente: " .. tostring(string.format("%.3f", spearPercentage))*100 .. "%")
 
 		-------------------------
@@ -257,7 +265,7 @@ function HowToBeam.Calcul()
 			local spammablePercentage		
 			if HowToBeam.SpammableUsed ~= "null" then
 				local spammableTotal = HowToBeam.UnpackDatas(HowToBeam.SpammableUsed)
-				spammablePercentage = HowToBeam.GetThresholdPercentage(spammableTotal, radiantDamage)
+				spammablePercentage = HowToBeam.GetThresholdPercentage(spammableTotal, radiantDamage, HowToBeam.SpammableUsed)
 				--d(HowToBeam.SpammableUsed .. ": " .. tostring(string.format("%.3f", spammablePercentage))*100 .. "%")
 			end
 
@@ -266,7 +274,7 @@ function HowToBeam.Calcul()
 			if HowToBeam.SpammableUsed == "null" or bossPercentage < spammablePercentage then
 				for i = 1, #HowToBeam.DotsUsed do
 					local dotTotal = HowToBeam.UnpackDatas(HowToBeam.DotsUsed[i])
-					local dotPercentage = HowToBeam.GetThresholdPercentage(dotTotal, radiantDamage)
+					local dotPercentage = HowToBeam.GetThresholdPercentage(dotTotal, radiantDamage, HowToBeam.DotsUsed[i])
 					--d(HowToBeam.DotsUsed[i] .. ": " .. tostring(string.format("%.3f", dotPercentage))*100 .. "%")
 					if bossPercentage < dotPercentage then
 						dotNumber = dotNumber - 1
@@ -340,12 +348,14 @@ function HowToBeam.ChangeSkill(_, actionSlotIndex)
 		for i = 1, 5 do
 			if skills.primaryBar[i] == STRING_SUN_FIRE or skills.primaryBar[i] == STRING_VAMPIRE_BANE or skills.primaryBar[i] == STRING_REFLECTIVE_LIGHT or skills.primaryBar[i] == STRING_SOLAR_BARRAGE or skills.primaryBar[i] == STRING_ENTROPY or
 			skills.primaryBar[i] == STRING_DEGENERATION or skills.primaryBar[i] == STRING_STRUCTURED_ENTROPY or skills.primaryBar[i] == STRING_SOUL_TRAP or skills.primaryBar[i] == STRING_SOUL_SPLIT_TRAP or skills.primaryBar[i] == STRING_CONSUMING_TRAP or
-			skills.primaryBar[i] == STRING_FLAME_REACH or skills.primaryBar[i] == STRING_FLAME_TOUCH or skills.primaryBar[i] == STRING_SHOCK_REACH or skills.primaryBar[i] == STRING_SHOCK_TOUCH or skills.primaryBar[i] == STRING_SCALDING_RUNE then
+			skills.primaryBar[i] == STRING_FLAME_REACH or skills.primaryBar[i] == STRING_FLAME_TOUCH or skills.primaryBar[i] == STRING_SHOCK_REACH or skills.primaryBar[i] == STRING_SHOCK_TOUCH or skills.primaryBar[i] == STRING_SCALDING_RUNE or
+			skills.primaryBar[i] == STRING_BACKLASH or skills.primaryBar[i] == STRING_PURIFYING_LIGHT or skills.primaryBar[i] == STRING_RITUAL_RETRIBUTION then
 				table.insert(HowToBeam.DotsUsed, skills.primaryBar[i])
 			end
 			if skills.secondaryBar[i] == STRING_SUN_FIRE or skills.secondaryBar[i] == STRING_VAMPIRE_BANE or skills.secondaryBar[i] == STRING_REFLECTIVE_LIGHT or skills.secondaryBar[i] == STRING_SOLAR_BARRAGE or skills.secondaryBar[i] == STRING_ENTROPY or
 			skills.secondaryBar[i] == STRING_DEGENERATION or skills.secondaryBar[i] == STRING_STRUCTURED_ENTROPY or skills.secondaryBar[i] == STRING_SOUL_TRAP or skills.secondaryBar[i] == STRING_SOUL_SPLIT_TRAP or skills.secondaryBar[i] == STRING_CONSUMING_TRAP or
-			skills.secondaryBar[i] == STRING_FLAME_REACH or skills.secondaryBar[i] == STRING_FLAME_TOUCH or skills.secondaryBar[i] == STRING_SHOCK_REACH or skills.secondaryBar[i] == STRING_SHOCK_TOUCH or skills.secondaryBar[i] == STRING_SCALDING_RUNE then
+			skills.secondaryBar[i] == STRING_FLAME_REACH or skills.secondaryBar[i] == STRING_FLAME_TOUCH or skills.secondaryBar[i] == STRING_SHOCK_REACH or skills.secondaryBar[i] == STRING_SHOCK_TOUCH or skills.secondaryBar[i] == STRING_SCALDING_RUNE or
+			skills.secondaryBar[i] == STRING_BACKLASH or skills.secondaryBar[i] == STRING_PURIFYING_LIGHT or skills.secondaryBar[i] == STRING_RITUAL_RETRIBUTION then
 				table.insert(HowToBeam.DotsUsed, skills.secondaryBar[i])
 			end
 		end
@@ -477,35 +487,35 @@ function HowToBeam.Debug()
 	--LA dmg
 	local lightAttackBonus = damageBonus + fireBonus + 0.08 + HowToBeam.ExpertElem + HowToBeam.MasterArms + HowToBeam.StaffExpert
 	local lightAttackMABonus = damageBonus + fireBonus + 0.08 + HowToBeam.ExpertElem + HowToBeam.MasterArms
-	local lightAttackDamage = (0.0450633 * maxMagicka + 0.471863 * spellDamage - 0.865957) * 1 * (1 + lightAttackBonus)
+	local lightAttackDamage = (0.0450994 * maxMagicka + 0.47178 * spellDamage - 1.08238) * 1 * (1 + lightAttackBonus)
 	local lightAttackMADamage = 1341 * (1 + lightAttackMABonus)
 	lightAttackTotal = GetLightAttackTotal(lightAttackDamage, lightAttackMADamage)
 
 	--radiant dmg
 	local radiantBonus = damageBonus + 0.08 + HowToBeam.ExpertElem + HowToBeam.MasterArms
 	local actualMagicka = currentMagicka / maxMagicka
-	local radiantDamage = (0.11651 * maxMagicka + 1.22302 * spellDamage - 2.76818) * 1 * (1 + radiantBonus) * (1 + 0.2 * actualMagicka)
+	local radiantDamage = (0.11326 * maxMagicka + 1.18471 * spellDamage - 6.65407) * 1 * (1 + radiantBonus) * (1 + 0.2 * actualMagicka)
 
 	--all other skills
 	for i = 1, 5 do
 		if HowToBeam.Datas[skills.primaryBar[i]] then
 			local total = HowToBeam.UnpackDatas(skills.primaryBar[i])
-			local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage)
+			local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage, skills.primaryBar[i])
 			percent = tostring(string.format("%.3f", percent)) * 100
 			d("|cffd708" .. skills.primaryBar[i] .. "|r: " .. percent .. "%")
 		end
 		if HowToBeam.Datas[skills.secondaryBar[i]] then
 			local total = HowToBeam.UnpackDatas(skills.secondaryBar[i])
-			local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage)
+			local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage, skills.secondaryBar[i])
 			percent = tostring(string.format("%.3f", percent)) * 100
 			d("|cffd708" .. skills.secondaryBar[i] .. "|r: " .. percent .. "%")
 		end
 	end
 
-	--[[local total = HowToBeam.UnpackDatas(STRING_SCALDING_RUNE)
-	local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage)
+	--[[local total = HowToBeam.UnpackDatas(STRING_DARK_FLARE)
+	local percent = HowToBeam.GetThresholdPercentage(total, radiantDamage, STRING_DARK_FLARE)
 	percent = tostring(string.format("%.3f", percent)) * 100
-	d("|cffd708" .. STRING_SCALDING_RUNE .. "|r: " .. percent .. "%")]]
+	d("|cffd708" .. STRING_DARK_FLARE .. "|r: " .. percent .. "%")]]
 end
 
 ----------

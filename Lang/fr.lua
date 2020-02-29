@@ -22,7 +22,7 @@ SafeAddString(SI_HOWTOBEAM_CUSTOMIZATION_DESC, "D'autres paramètres pour person
 SafeAddString(SI_HOWTOBEAM_SPAMMABLEALERT_NAME, "Alerte de Commencement", 1)
 SafeAddString(SI_HOWTOBEAM_SPAMMABLEALERT_TT, "Quelle alerte vous voulez, quand vous pouvez commencer à utiliser l'Oppression à la place de votre spammable ou de votre DoT le plus faible.\nPensez à garder tous vos DoTs actifs.", 1)
 SafeAddString(SI_HOWTOBEAM_DOTALERT_NAME, "Alerte de Lance+Barrage", 1)
-SafeAddString(SI_HOWTOBEAM_DOTALERT_TT, "Quelle alerte vous voulez, quand les seuls DoTs à reposer sont la Lance et le Barrage.", 1)
+SafeAddString(SI_HOWTOBEAM_DOTALERT_TT, "Quelle alerte vous voulez, quand les seuls DoTs à reposer sont la Lance et le Barrage.\n\nSur ce patch vous devez aussi continuer a utiliser la Lumière Purificatrice ainsi que le Piège Barbelé / l'Accélération Canalisée si vous les utilisés.", 1)
 SafeAddString(SI_HOWTOBEAM_FINISHALERT_NAME, "Alerte de Spam Oppression", 1)
 SafeAddString(SI_HOWTOBEAM_FINISHALERT_TT, "Quelle alerte vous voulez, quand vous pouvez spammer l'Oppression.", 1)
 SafeAddString(SI_HOWTOBEAM_UNLOCK_NAME, "Déverouiller", 1)

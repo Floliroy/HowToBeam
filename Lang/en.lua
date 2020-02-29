@@ -23,7 +23,7 @@
 	SI_HOWTOBEAM_SPAMMABLEALERT_NAME = "Beggining Alert",
 	SI_HOWTOBEAM_SPAMMABLEALERT_TT = "What alert you want, when you can start use Radiant and dropping your spammable or weakest DoT.\nRemember to keep all your DoTs up.",
 	SI_HOWTOBEAM_DOTALERT_NAME = "Spear+Blockade Alert",
-	SI_HOWTOBEAM_DOTALERT_TT = "What alert you want, when the only DoTs you need to refresh are Spear and Blockade.",
+	SI_HOWTOBEAM_DOTALERT_TT = "What alert you want, when the only DoTs you need to refresh are Spear and Blockade.\n\nOn that patch you also need to continue applying Purifying Light and Trap / Acceleration if you used them.",
 	SI_HOWTOBEAM_FINISHALERT_NAME = "Radiant Spam Alert",
 	SI_HOWTOBEAM_FINISHALERT_TT = "What alert you want, when you can spam Radiant.",
 	SI_HOWTOBEAM_UNLOCK_NAME = "Unlock",
