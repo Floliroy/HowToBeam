@@ -5,7 +5,7 @@ HowToBeam = HowToBeam or {}
 local HowToBeam = HowToBeam
 
 HowToBeam.name = "HowToBeam"
-HowToBeam.version = "2.5"
+HowToBeam.version = "2.5.1"
 
 local cpt = 0
 local lastHP = {}
@@ -84,7 +84,7 @@ function HowToBeam.GetThresholdPercentage(dmgToCompare, radiantDmg, skillName)
 	local offset = 0
 	if skillName == HowToBeam.SkillNames.STRING_PULSE_UNMORPHED or skillName == HowToBeam.SkillNames.STRING_CRUSHING_SHOCK or skillName == HowToBeam.SkillNames.STRING_FORCE_PULSE or	skillName == HowToBeam.SkillNames.STRING_ELEMENTAL_WEAPON or
 	skillName == HowToBeam.SkillNames.STRING_SWEEP_UNMORPHED or skillName == HowToBeam.SkillNames.STRING_PUNCTURING_SWEEP or skillName == HowToBeam.SkillNames.STRING_FLARE_UNMORPHED or skillName == HowToBeam.SkillNames.STRING_DARK_FLARE then
-		offset = -0.06
+		offset = -0.05
 	end
 	return (1 - ((dmgToCompare * 1.8 - lightAttackTotal) / radiantDmg - 1) / 4.8) * 0.5 + offset
 end
@@ -150,16 +150,19 @@ function HowToBeam.GetDamageBonus()
 		end
 	end
 
-	local EngFlames	= 0		
+	local EngFlames	= 0	
+	local Behemoth = 0		
 	for i=1,GetNumBuffs("reticleover") do
 		local buffName, timeStarted, timeEnding, buffSlot, stackCount, iconFilename, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff, castByPlayer = GetUnitBuffInfo("reticleover",i)		
 		if(zo_strformat(SI_ABILITY_NAME,GetAbilityName(abilityId)) == zo_strformat(SI_ABILITY_NAME, GetAbilityName(31104))) then
 			EngFlames = 0.10
-			return (MinBerserk + MajBerserk + MinSlayer + MajSlayer), EngFlames
 		end
+		if(zo_strformat(SI_ABILITY_NAME,GetAbilityName(abilityId)) == zo_strformat(SI_ABILITY_NAME, GetAbilityName(151034))) then
+			Behemoth = 0.05
+		end		
 	end
 
-	return (MinBerserk + MajBerserk + MinSlayer + MajSlayer), EngFlames
+	return (MinBerserk + MajBerserk + MinSlayer + MajSlayer), (EngFlames + Behemoth)
 end
 
 function HowToBeam.Calcul()
@@ -220,10 +223,6 @@ function HowToBeam.Calcul()
 		end
 		cpt = cpt + 1
 
-		if bossPercentage < 0.35 and currentDPS ~= nil then
-            bossPercentage = (currentTargetHP - currentDPS) / maxTargetHP
-		end
-
 		---------------------------
 		---- Skills Comparison ----
 		---------------------------
@@ -238,6 +237,10 @@ function HowToBeam.Calcul()
 			local dotNumber = #HowToBeam.DotsUsed
 			local skillsToDrop = {}
 			if HowToBeam.SpammableUsed == "null" or bossPercentage < spammablePercentage then
+				if bossPercentage < 0.4 and currentDPS ~= nil then
+					bossPercentage = (currentTargetHP - currentDPS) / maxTargetHP
+				end
+
 				for i = 1, #HowToBeam.DotsUsed do
 					local dotTotal = HowToBeam.UnpackDatas(HowToBeam.DotsUsed[i])
 					local dotPercentage = HowToBeam.GetThresholdPercentage(dotTotal, radiantDamage, HowToBeam.DotsUsed[i])
@@ -424,8 +427,8 @@ function HowToBeam.CombatState(_, inCombat)
 		end
 
 		--check maelstrom staff
-		local _, _, _, _, _, setIdBack GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_BACKUP_MAIN))
-		local _, _, _, _, _, setIdFront GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_MAIN_HAND))
+		local _, _, _, _, _, setIdBack = GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_BACKUP_MAIN))
+		local _, _, _, _, _, setIdFront = GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_MAIN_HAND))
 		if setIdBack == 373 or setIdFront == 373 then
 			usingMA = true
 		else
@@ -499,8 +502,8 @@ function HowToBeam.Debug()
 	elseif GetItemWeaponType(0,EQUIP_SLOT_BACKUP_MAIN) == WEAPONTYPE_LIGHTNING_STAFF then
 		HowToBeam.shockStaff = HowToBeam.shockStaff + 0.3
 	end
-	local _, _, _, _, _, setIdBack GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_BACKUP_MAIN))
-	local _, _, _, _, _, setIdFront GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_MAIN_HAND))
+	local _, _, _, _, _, setIdBack = GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_BACKUP_MAIN))
+	local _, _, _, _, _, setIdFront = GetItemLinkSetInfo(GetItemLink(0,EQUIP_SLOT_MAIN_HAND))
 	if setIdBack == 373 or setIdFront == 373 then
 		usingMA = true
 	else
