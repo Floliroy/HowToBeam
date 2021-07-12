@@ -17,6 +17,8 @@ local sV
 HowToBeam.DotsUsed = {}
 HowToBeam.fireStaff = 0
 HowToBeam.shockStaff = 0
+HowToBeam.spammableOffset = -0.035
+
 ---------------------------
 ---- Variables Default ----
 ---------------------------
@@ -84,7 +86,7 @@ function HowToBeam.GetThresholdPercentage(dmgToCompare, radiantDmg, skillName)
 	local offset = 0
 	if skillName == HowToBeam.SkillNames.STRING_PULSE_UNMORPHED or skillName == HowToBeam.SkillNames.STRING_CRUSHING_SHOCK or skillName == HowToBeam.SkillNames.STRING_FORCE_PULSE or	skillName == HowToBeam.SkillNames.STRING_ELEMENTAL_WEAPON or
 	skillName == HowToBeam.SkillNames.STRING_SWEEP_UNMORPHED or skillName == HowToBeam.SkillNames.STRING_PUNCTURING_SWEEP or skillName == HowToBeam.SkillNames.STRING_FLARE_UNMORPHED or skillName == HowToBeam.SkillNames.STRING_DARK_FLARE then
-		offset = -0.05
+		offset = HowToBeam.spammableOffset
 	end
 	return (1 - ((dmgToCompare * 1.8 - lightAttackTotal) / radiantDmg - 1) / 4.8) * 0.5 + offset
 end
@@ -223,6 +225,11 @@ function HowToBeam.Calcul()
 		end
 		cpt = cpt + 1
 
+		local baseBossPercentage = bossPercentage
+		if bossPercentage < 0.4 and currentDPS ~= nil then
+			bossPercentage = (currentTargetHP - currentDPS) / maxTargetHP
+		end
+
 		---------------------------
 		---- Skills Comparison ----
 		---------------------------
@@ -236,10 +243,7 @@ function HowToBeam.Calcul()
 
 			local dotNumber = #HowToBeam.DotsUsed
 			local skillsToDrop = {}
-			if HowToBeam.SpammableUsed == "null" or bossPercentage < spammablePercentage then
-				if bossPercentage < 0.4 and currentDPS ~= nil then
-					bossPercentage = (currentTargetHP - currentDPS) / maxTargetHP
-				end
+			if HowToBeam.SpammableUsed == "null" or baseBossPercentage < spammablePercentage then
 
 				for i = 1, #HowToBeam.DotsUsed do
 					local dotTotal = HowToBeam.UnpackDatas(HowToBeam.DotsUsed[i])
@@ -252,7 +256,7 @@ function HowToBeam.Calcul()
 				end
 			end
 
-			if (spammablePercentage and bossPercentage < spammablePercentage) or dotNumber < #HowToBeam.DotsUsed then
+			if (spammablePercentage and baseBossPercentage < spammablePercentage) or dotNumber < #HowToBeam.DotsUsed then
 				alertText = sV.SpammableAlert
 				if sV.showWhatToDrop and HowToBeam.SpammableUsed ~= "null" then
 					alertText = alertText .. "\nDrop: " .. HowToBeam.Datas[HowToBeam.SpammableUsed].icon
