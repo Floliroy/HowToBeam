@@ -1,7 +1,7 @@
 ## Title: HowTo|cffd708Beam|r
-## APIVersion: 100030
+## APIVersion: 100035
 ## Author: Floliroy
-## Version: 2.4
+## Version: 2.5
 ## DependsOn: LibAddonMenu-2.0
 ## SavedVariables: HowToBeamVariables
 

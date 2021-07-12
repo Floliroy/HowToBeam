@@ -46,16 +46,6 @@ function HowToBeam.CreateSettingsWindow()
 			text = GetString(SI_HOWTOBEAM_SETTINGS_DESC),
 		},
 		{
-			type = "checkbox",
-			name = GetString(SI_HOWTOBEAM_MAEL_NAME),
-			tooltip = GetString(SI_HOWTOBEAM_MAEL_TT),
-			default = true,
-			getFunc = function() return sV.UsingMA end,
-			setFunc = function(newValue)
-				sV.UsingMA = newValue
-			end,
-		},
-		{
 			type = "dropdown",
 			name = GetString(SI_HOWTOBEAM_GLYPH_NAME),
 			tooltip = GetString(SI_HOWTOBEAM_GLYPH_TT),
@@ -68,23 +58,6 @@ function HowToBeam.CreateSettingsWindow()
 						sV.Glyph = index
 						break
 					end
-				end
-			end,
-		},
-		{
-			type = "checkbox",
-			name = GetString(SI_HOWTOBEAM_INF_GLYPH_NAME),
-			tooltip = GetString(SI_HOWTOBEAM_INF_GLYPH_TT),
-			default = false,
-			getFunc = function() return sV.infusedGlyph end,
-			setFunc = function(newValue) 
-				sV.infusedGlyph = newValue
-			end,
-			disable = function()
-				if sV.Glyph == 4 then
-					return true
-				else
-					return false
 				end
 			end,
 		},
