@@ -281,7 +281,7 @@ function HowToBeam.Calcul()
 						end
 					end
 				end
-				if bossPercentage < 0.20 or dotNumber <= 0 then
+				if bossPercentage < 0.15 or dotNumber <= 0 then
 					alertText = sV.DoTAlert
 				end
 			end
